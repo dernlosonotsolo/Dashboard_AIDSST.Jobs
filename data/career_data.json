@@ -1,0 +1,267 @@
+{
+  "metadata": {
+    "title": "AI, Data Science & Statistics Workforce and Education Intelligence Dataset",
+    "version": "1.0.0",
+    "last_updated": "2026-10-05",
+    "currency_primary": "THB",
+    "currency_secondary": "USD"
+  },
+  "categories": [
+    {
+      "id": "graduates",
+      "name": "จำนวนผู้สำเร็จการศึกษา (Graduates)",
+      "description": "สถิติผู้จบการศึกษาด้าน AI, Data Science และ Statistics ประจำปี 2021 - 2024",
+      "sources": [
+        {"title": "OECD Education and Skills Statistics", "url": "https://data.oecd.org/edu/graduates-rate.htm"},
+        {"title": "Kaggle STEM Graduates Dataset", "url": "https://www.kaggle.com/datasets"},
+        {"title": "MHESI Open Data Thailand", "url": "https://data.go.th/"}
+      ],
+      "items": [
+        {"id": "G001", "program": "B.Sc. Data Science & AI", "university": "Chulalongkorn University", "graduates_2021": 45, "graduates_2022": 52, "graduates_2023": 60, "graduates_2024": 68, "total_4yr": 225, "field": "Data Science & AI"},
+        {"id": "G002", "program": "B.Sc. Data Science", "university": "Chiang Mai University", "graduates_2021": 38, "graduates_2022": 44, "graduates_2023": 50, "graduates_2024": 55, "total_4yr": 187, "field": "Data Science"},
+        {"id": "G003", "program": "B.Eng. Artificial Intelligence System Engineering", "university": "KMITL", "graduates_2021": 30, "graduates_2022": 42, "graduates_2023": 55, "graduates_2024": 65, "total_4yr": 192, "field": "AI Engineering"},
+        {"id": "G004", "program": "B.Sc. Applied Statistics & Data Science", "university": "Thammasat University", "graduates_2021": 50, "graduates_2022": 55, "graduates_2023": 58, "graduates_2024": 62, "total_4yr": 225, "field": "Statistics"},
+        {"id": "G005", "program": "B.Sc. Data Science & Medical Informatics", "university": "Mahidol University", "graduates_2021": 25, "graduates_2022": 32, "graduates_2023": 40, "graduates_2024": 48, "total_4yr": 145, "field": "Data Science"},
+        {"id": "G006", "program": "B.Sc. Artificial Intelligence", "university": "Khon Kaen University", "graduates_2021": 28, "graduates_2022": 35, "graduates_2023": 44, "graduates_2024": 52, "total_4yr": 159, "field": "Artificial Intelligence"},
+        {"id": "G007", "program": "B.Sc. Computer Science & Big Data", "university": "KMUTT", "graduates_2021": 42, "graduates_2022": 48, "graduates_2023": 56, "graduates_2024": 63, "total_4yr": 209, "field": "Data Science"}
+      ]
+    },
+    {
+      "id": "employment",
+      "name": "อัตราการมีงานทำ (Employment Rate)",
+      "description": "สถิติอัตราการจ้างงานตรงสายงานหลังจบการศึกษา ในปีที่ 1, ปีที่ 2 และปีที่ 3",
+      "sources": [
+        {"title": "US BLS Data Scientists Projections", "url": "https://www.bls.gov/ooh/math/data-scientists.htm"},
+        {"title": "Kaggle Data Science Employment Trends", "url": "https://www.kaggle.com/datasets/saurabhshahane/data-science-jobs-salaries"},
+        {"title": "MHESI Graduate Employment Survey", "url": "https://data.go.th/"}
+      ],
+      "items": [
+        {"id": "E001", "program": "Data Science & AI (CU)", "field": "Data Science & AI", "year_1_rate": 88.5, "year_2_rate": 94.2, "year_3_rate": 97.5, "top_sector": "FinTech & Banking"},
+        {"id": "E002", "program": "AI System Engineering (KMITL)", "field": "AI Engineering", "year_1_rate": 85.0, "year_2_rate": 92.8, "year_3_rate": 96.0, "top_sector": "Automotive & Industrial AI"},
+        {"id": "E003", "program": "Data Science (CMU)", "field": "Data Science", "year_1_rate": 82.0, "year_2_rate": 89.5, "year_3_rate": 93.8, "top_sector": "Software & Consulting"},
+        {"id": "E004", "program": "Applied Statistics & DS (TU)", "field": "Statistics", "year_1_rate": 84.5, "year_2_rate": 91.0, "year_3_rate": 95.2, "top_sector": "Insurance & Risk Analytics"},
+        {"id": "E005", "program": "Data Science & MedInfo (MU)", "field": "Data Science", "year_1_rate": 86.0, "year_2_rate": 93.5, "year_3_rate": 96.8, "top_sector": "Healthcare & Biotech"},
+        {"id": "E006", "program": "Artificial Intelligence (KKU)", "field": "Artificial Intelligence", "year_1_rate": 80.5, "year_2_rate": 87.5, "year_3_rate": 92.0, "top_sector": "AgriTech & Smart Logistics"}
+      ]
+    },
+    {
+      "id": "salaries",
+      "name": "เงินเดือนเริ่มต้นและโครงสร้างค่าตอบแทน (Salaries)",
+      "description": "โครงสร้างค่าตอบแทนและฐานเงินเดือนสำหรับบัณฑิตจบใหม่และผู้มีประสบการณ์ตามระดับ",
+      "sources": [
+        {"title": "Kaggle Data Science & AI Salaries", "url": "https://www.kaggle.com/datasets/adilshamim8/salaries-for-data-science-jobs/data"},
+        {"title": "Open Government Data Thailand Salary Reports", "url": "https://data.go.th/"}
+      ],
+      "items": [
+        {"id": "S001", "role": "AI / ML Engineer", "level": "Entry (0-2 Yrs)", "salary_min_thb": 35000, "salary_median_thb": 48000, "salary_max_thb": 65000, "salary_usd_annual": 17000},
+        {"id": "S002", "role": "AI / ML Engineer", "level": "Mid (3-5 Yrs)", "salary_min_thb": 65000, "salary_median_thb": 90000, "salary_max_thb": 125000, "salary_usd_annual": 32000},
+        {"id": "S003", "role": "AI / ML Engineer", "level": "Senior / Lead (5+ Yrs)", "salary_min_thb": 120000, "salary_median_thb": 165000, "salary_max_thb": 240000, "salary_usd_annual": 58000},
+        {"id": "S004", "role": "Data Scientist", "level": "Entry (0-2 Yrs)", "salary_min_thb": 32000, "salary_median_thb": 45000, "salary_max_thb": 60000, "salary_usd_annual": 15500},
+        {"id": "S005", "role": "Data Scientist", "level": "Mid (3-5 Yrs)", "salary_min_thb": 58000, "salary_median_thb": 82000, "salary_max_thb": 115000, "salary_usd_annual": 29000},
+        {"id": "S006", "role": "Data Scientist", "level": "Senior / Lead (5+ Yrs)", "salary_min_thb": 110000, "salary_median_thb": 150000, "salary_max_thb": 220000, "salary_usd_annual": 53000},
+        {"id": "S007", "role": "Data Analyst / BI", "level": "Entry (0-2 Yrs)", "salary_min_thb": 28000, "salary_median_thb": 38000, "salary_max_thb": 50000, "salary_usd_annual": 13200},
+        {"id": "S008", "role": "Data Analyst / BI", "level": "Mid (3-5 Yrs)", "salary_min_thb": 48000, "salary_median_thb": 68000, "salary_max_thb": 95000, "salary_usd_annual": 24000},
+        {"id": "S009", "role": "Data Analyst / BI", "level": "Senior / Lead (5+ Yrs)", "salary_min_thb": 90000, "salary_median_thb": 125000, "salary_max_thb": 175000, "salary_usd_annual": 44000},
+        {"id": "S010", "role": "Statistician / Actuary", "level": "Entry (0-2 Yrs)", "salary_min_thb": 30000, "salary_median_thb": 42000, "salary_max_thb": 55000, "salary_usd_annual": 14800},
+        {"id": "S011", "role": "Statistician / Actuary", "level": "Mid (3-5 Yrs)", "salary_min_thb": 55000, "salary_median_thb": 80000, "salary_max_thb": 120000, "salary_usd_annual": 28500},
+        {"id": "S012", "role": "Statistician / Actuary", "level": "Senior / Lead (5+ Yrs)", "salary_min_thb": 115000, "salary_median_thb": 160000, "salary_max_thb": 230000, "salary_usd_annual": 56000}
+      ]
+    },
+    {
+      "id": "companies",
+      "name": "บริษัทที่รับสมัคร (Hiring Companies)",
+      "description": "รายชื่อบริษัทเทคโนโลยีและองค์กรชั้นนำที่เปิดรับตำแหน่งสาย Data & AI",
+      "sources": [
+        {"title": "GitHub Top AI & Tech Companies Dataset", "url": "https://github.com/collections/machine-learning"},
+        {"title": "Kaggle Tech Job Postings", "url": "https://www.kaggle.com/datasets"}
+      ],
+      "items": [
+        {"id": "C001", "name": "Agoda", "industry": "Travel Tech / Global Platform", "open_positions": 34, "locations": "Bangkok, Thailand", "top_roles": "Data Scientist, ML Engineer, Data Platform Eng", "hiring_level": "Entry, Mid, Senior"},
+        {"id": "C002", "name": "KBTG (Kasikorn Business-Technology Group)", "industry": "FinTech & Banking", "open_positions": 42, "locations": "Nonthaburi, Thailand", "top_roles": "AI Research Engineer, MLOps, Data Analytics Lead", "hiring_level": "All Levels"},
+        {"id": "C003", "name": "SCB 10X / SCBX DataX", "industry": "Financial Technology & AI Venture", "open_positions": 28, "locations": "Bangkok, Thailand", "top_roles": "GenAI Engineer, Senior Data Scientist, Quantitative Analyst", "hiring_level": "Mid, Senior"},
+        {"id": "C004", "name": "LINE MAN Wongnai", "industry": "On-demand SuperApp / Logistics", "open_positions": 25, "locations": "Bangkok, Thailand", "top_roles": "Recommendation System Eng, Product Analyst, Data Platform", "hiring_level": "Entry, Mid, Senior"},
+        {"id": "C005", "name": "True Digital Group", "industry": "Telecommunications & IoT", "open_positions": 31, "locations": "Bangkok, Thailand", "top_roles": "Big Data Engineer, Computer Vision Specialist, Data Modeler", "hiring_level": "All Levels"},
+        {"id": "C006", "name": "Central Tech (Central Retail)", "industry": "Omnichannel Retail Tech", "open_positions": 22, "locations": "Bangkok, Thailand", "top_roles": "Customer Data Platform Eng, BI Specialist, Demand Forecaster", "hiring_level": "Entry, Mid"},
+        {"id": "C007", "name": "Shopee / Sea Group", "industry": "E-Commerce & Digital Payments", "open_positions": 19, "locations": "Bangkok, Thailand", "top_roles": "Data Analyst, Fraud Detection ML Specialist, BI Analyst", "hiring_level": "Entry, Mid"},
+        {"id": "C008", "name": "Bitkub Capital Group", "industry": "FinTech & Web3", "open_positions": 16, "locations": "Bangkok, Thailand", "top_roles": "Blockchain Data Analyst, Quant Analyst, ML Ops", "hiring_level": "Mid, Senior"},
+        {"id": "C009", "name": "PTT Digital Solutions", "industry": "Energy & Enterprise Solutions", "open_positions": 24, "locations": "Bangkok / Rayong", "top_roles": "Industrial AI Specialist, Predictive Maintenance DS", "hiring_level": "Mid, Senior"}
+      ]
+    },
+    {
+      "id": "countries",
+      "name": "ประเทศที่มีตลาดแรงงานสูง (Global Hubs)",
+      "description": "ประเทศที่มีอัตราการจ้างงานและความต้องการบุคลากรเข้มข้นพร้อมดัชนีเงินเดือนเฉลี่ย",
+      "sources": [
+        {"title": "OECD.AI Policy Observatory", "url": "https://oecd.ai/en/data-insights"},
+        {"title": "Kaggle Global Salary Landscape", "url": "https://www.kaggle.com/datasets/lainguyn123/data-science-salary-landscape"}
+      ],
+      "items": [
+        {"id": "CTR01", "country": "United States", "region": "North America", "demand_index": 98.5, "avg_annual_salary_usd": 142000, "dominant_specialties": "GenAI, LLMs, Autonomous Systems, MLOps"},
+        {"id": "CTR02", "country": "Singapore", "region": "Southeast Asia", "demand_index": 89.2, "avg_annual_salary_usd": 85000, "dominant_specialties": "FinTech AI, Quantitative Analytics, GovTech"},
+        {"id": "CTR03", "country": "Germany", "region": "Europe", "demand_index": 84.7, "avg_annual_salary_usd": 88000, "dominant_specialties": "Automotive AI, Industrial Robotics, Green Energy Analytics"},
+        {"id": "CTR04", "country": "United Kingdom", "region": "Europe", "demand_index": 86.4, "avg_annual_salary_usd": 92000, "dominant_specialties": "Biotech, Health AI, FinTech, Risk Modeling"},
+        {"id": "CTR05", "country": "Thailand", "region": "Southeast Asia", "demand_index": 73.5, "avg_annual_salary_usd": 32000, "dominant_specialties": "Retail Analytics, Banking/FinTech, Telecom Big Data"},
+        {"id": "CTR06", "country": "Japan", "region": "East Asia", "demand_index": 81.0, "avg_annual_salary_usd": 74000, "dominant_specialties": "Robotics, Computer Vision, Smart Manufacturing"}
+      ]
+    },
+    {
+      "id": "skills",
+      "name": "ทักษะที่จำเป็น (Required Skills)",
+      "description": "Hard Skills & Soft Skills ที่ระบุในประกาศรับสมัครงานมากที่สุด พร้อมระดับความสำคัญ",
+      "sources": [
+        {"title": "Kaggle Job Description Text Mining", "url": "https://www.kaggle.com/datasets"},
+        {"title": "GitHub Awesome Data Science Skills", "url": "https://github.com/topics/data-science-skills"}
+      ],
+      "items": [
+        {"id": "SK01", "name": "Python Programming", "type": "Technical / Programming", "market_demand_pct": 94.5, "curriculum_coverage_pct": 90.0, "gap_pct": -4.5, "criticality": "Essential", "category": "Core Tech"},
+        {"id": "SK02", "name": "SQL & Relational Databases", "type": "Technical / Data Engineering", "market_demand_pct": 89.0, "curriculum_coverage_pct": 65.0, "gap_pct": -24.0, "criticality": "Essential", "category": "Data Ops"},
+        {"id": "SK03", "name": "Machine Learning Algorithms", "type": "Technical / Modeling", "market_demand_pct": 85.5, "curriculum_coverage_pct": 85.0, "gap_pct": -0.5, "criticality": "Essential", "category": "Core Tech"},
+        {"id": "SK04", "name": "Cloud Platforms (AWS/GCP/Azure)", "type": "Technical / Infrastructure", "market_demand_pct": 82.0, "curriculum_coverage_pct": 28.0, "gap_pct": -54.0, "criticality": "Critical Deficit", "category": "Production & Ops"},
+        {"id": "SK05", "name": "MLOps & CI/CD Pipelines", "type": "Technical / Production", "market_demand_pct": 78.5, "curriculum_coverage_pct": 22.0, "gap_pct": -56.5, "criticality": "Critical Deficit", "category": "Production & Ops"},
+        {"id": "SK06", "name": "Deep Learning & PyTorch/TensorFlow", "type": "Technical / AI", "market_demand_pct": 76.0, "curriculum_coverage_pct": 52.0, "gap_pct": -24.0, "criticality": "High Priority", "category": "AI Specialty"},
+        {"id": "SK07", "name": "Generative AI & LLM Fine-Tuning", "type": "Technical / Modern AI", "market_demand_pct": 72.0, "curriculum_coverage_pct": 25.0, "gap_pct": -47.0, "criticality": "Critical Deficit", "category": "AI Specialty"},
+        {"id": "SK08", "name": "Big Data (Apache Spark, Kafka)", "type": "Technical / Distributed Systems", "market_demand_pct": 68.0, "curriculum_coverage_pct": 32.0, "gap_pct": -36.0, "criticality": "High Priority", "category": "Data Ops"},
+        {"id": "SK09", "name": "Business Intelligence (Tableau, PowerBI)", "type": "Technical / Visualization", "market_demand_pct": 64.0, "curriculum_coverage_pct": 48.0, "gap_pct": -16.0, "criticality": "Moderate", "category": "Business Alignment"},
+        {"id": "SK10", "name": "Statistical Modeling & Hypothesis Testing", "type": "Mathematical Foundation", "market_demand_pct": 62.0, "curriculum_coverage_pct": 95.0, "gap_pct": 33.0, "criticality": "Academic Surplus", "category": "Math & Theory"},
+        {"id": "SK11", "name": "R Programming", "type": "Technical / Statistical Computing", "market_demand_pct": 34.0, "curriculum_coverage_pct": 72.0, "gap_pct": 38.0, "criticality": "Academic Surplus", "category": "Math & Theory"},
+        {"id": "SK12", "name": "Business Communication & Storytelling", "type": "Soft Skill", "market_demand_pct": 82.0, "curriculum_coverage_pct": 40.0, "gap_pct": -42.0, "criticality": "High Priority", "category": "Soft Skills"},
+        {"id": "SK13", "name": "Agile / Scrum Collaboration", "type": "Process & Mindset", "market_demand_pct": 75.0, "curriculum_coverage_pct": 35.0, "gap_pct": -40.0, "criticality": "High Priority", "category": "Soft Skills"}
+      ]
+    },
+    {
+      "id": "career_levels",
+      "name": "ระดับของสายงาน (Career Tiers)",
+      "description": "การแบ่งระดับ Entry, Mid, และ Senior / Lead พร้อมความรับผิดชอบหลักและข้อกำหนด",
+      "sources": [
+        {"title": "Industry Standard Career Frameworks", "url": "https://github.com/topics/data-science-skills"}
+      ],
+      "items": [
+        {
+          "id": "LVL01",
+          "tier": "Entry-Level (Junior)",
+          "years_exp": "0 - 2 Years",
+          "education_focus": "Bachelor's Degree in DS/AI/Stat/CS",
+          "core_responsibilities": "Data cleaning, exploratory data analysis (EDA), implementing standard baseline ML models, creating dashboards.",
+          "salary_benchmark_thb": "30,000 - 55,000",
+          "expected_autonomy": "Guided by senior engineers; task-oriented deliverables."
+        },
+        {
+          "id": "LVL02",
+          "tier": "Mid-Level Professional",
+          "years_exp": "3 - 5 Years",
+          "education_focus": "Bachelor's / Master's Degree",
+          "core_responsibilities": "End-to-end model development, feature engineering pipelines, containerization (Docker), A/B testing, business translation.",
+          "salary_benchmark_thb": "60,000 - 110,000",
+          "expected_autonomy": "Independent problem solving; cross-functional stakeholder collaboration."
+        },
+        {
+          "id": "LVL03",
+          "tier": "Senior / Lead Specialist",
+          "years_exp": "5 - 8 Years",
+          "education_focus": "Master's / Ph.D. or Extensive Track Record",
+          "core_responsibilities": "System architecture, MLOps infrastructure, leading ML strategy, mentoring juniors, defining data governance and AI ethics.",
+          "salary_benchmark_thb": "115,000 - 200,000+",
+          "expected_autonomy": "Strategic leadership; drives technology roadmap and business impact."
+        },
+        {
+          "id": "LVL04",
+          "tier": "Principal / Head of AI & Data",
+          "years_exp": "8+ Years",
+          "education_focus": "Proven Strategic Leadership",
+          "core_responsibilities": "Executive stakeholder management, enterprise AI transformation, P&L responsibility for data initiatives.",
+          "salary_benchmark_thb": "200,000 - 350,000+",
+          "expected_autonomy": "Executive direction across whole business units."
+        }
+      ]
+    }
+  ],
+  "curriculum_courses": [
+    {"code": "DS101", "name": "Introduction to Data Science & Programming (Python)", "type": "Core Mandatory", "credits": 3, "aligned_domain": "Data Science", "demand_weight": 95},
+    {"code": "AI201", "name": "Machine Learning Foundations & Algorithms", "type": "Core Mandatory", "credits": 3, "aligned_domain": "AI Engineering", "demand_weight": 92},
+    {"code": "ST210", "name": "Applied Probability & Mathematical Statistics", "type": "Core Mandatory", "credits": 3, "aligned_domain": "Statistics", "demand_weight": 70},
+    {"code": "DB205", "name": "Database Systems & Enterprise SQL", "type": "Core Mandatory", "credits": 3, "aligned_domain": "Data Engineering", "demand_weight": 90},
+    {"code": "AI302", "name": "Deep Learning & Neural Network Architectures", "type": "Core Mandatory", "credits": 3, "aligned_domain": "AI Engineering", "demand_weight": 85},
+    {"code": "CS315", "name": "Cloud Computing & Distributed Systems", "type": "Elective / Modern", "credits": 3, "aligned_domain": "Cloud & MLOps", "demand_weight": 88},
+    {"code": "DS330", "name": "Data Visualization & Executive Storytelling", "type": "Core Mandatory", "credits": 3, "aligned_domain": "Business Intelligence", "demand_weight": 80},
+    {"code": "ST340", "name": "Multivariate Analysis & Experimental Design", "type": "Core Mandatory", "credits": 3, "aligned_domain": "Statistics", "demand_weight": 65},
+    {"code": "AI401", "name": "Natural Language Processing & Generative Models", "type": "Elective / Modern", "credits": 3, "aligned_domain": "AI Engineering", "demand_weight": 82},
+    {"code": "CP499", "name": "Capstone Project with Industry Partner", "type": "Required Capstone", "credits": 6, "aligned_domain": "Applied Practice", "demand_weight": 94}
+  ],
+  "tuition_programs": [
+    {"university": "Chulalongkorn University", "program": "B.Sc. Data Science & AI (International)", "degree": "Bachelor", "tuition_per_semester_thb": 92000, "total_tuition_thb": 736000, "duration_years": 4},
+    {"university": "Chiang Mai University", "program": "B.Sc. Data Science", "degree": "Bachelor", "tuition_per_semester_thb": 35000, "total_tuition_thb": 280000, "duration_years": 4},
+    {"university": "KMITL", "program": "B.Eng. AI System Engineering", "degree": "Bachelor", "tuition_per_semester_thb": 75000, "total_tuition_thb": 600000, "duration_years": 4},
+    {"university": "Thammasat University", "program": "B.Sc. Applied Statistics & Data Science", "degree": "Bachelor", "tuition_per_semester_thb": 28000, "total_tuition_thb": 224000, "duration_years": 4},
+    {"university": "Mahidol University", "program": "B.Sc. Data Science & Medical Informatics", "degree": "Bachelor", "tuition_per_semester_thb": 45000, "total_tuition_thb": 360000, "duration_years": 4},
+    {"university": "Khon Kaen University", "program": "B.Sc. Artificial Intelligence", "degree": "Bachelor", "tuition_per_semester_thb": 30000, "total_tuition_thb": 240000, "duration_years": 4},
+    {"university": "KMUTT", "program": "B.Sc. Computer Science (Big Data Track)", "degree": "Bachelor", "tuition_per_semester_thb": 38000, "total_tuition_thb": 304000, "duration_years": 4}
+  ],
+  "vacancies_by_subfield": [
+    {"subfield": "Artificial Intelligence / Machine Learning", "open_positions": 1420, "growth_rate_pct": 28.5, "share_pct": 34.0, "top_required_tool": "PyTorch, CUDA, Python, Docker"},
+    {"subfield": "Data Science & Advanced Analytics", "open_positions": 1650, "growth_rate_pct": 22.0, "share_pct": 39.5, "top_required_tool": "Python, SQL, Scikit-Learn, Spark"},
+    {"subfield": "Statistics & Quantitative Modeling", "open_positions": 710, "growth_rate_pct": 11.5, "share_pct": 17.0, "top_required_tool": "R, SAS, Python, Time Series, GLM"},
+    {"subfield": "Business Intelligence & Data Viz", "open_positions": 400, "growth_rate_pct": 14.0, "share_pct": 9.5, "top_required_tool": "PowerBI, Tableau, SQL, Excel Modeling"}
+  ],
+  "mismatch_insights": [
+    {
+      "title": "Severe MLOps & Production Infrastructure Gap",
+      "severity": "Critical",
+      "description": "82% of job vacancies demand cloud computing (AWS/GCP/Azure) and CI/CD/MLOps deployment skills, yet fewer than 25% of university curricula include dedicated courses on deploying and maintaining production ML models.",
+      "metric": "-56.5% Net Gap"
+    },
+    {
+      "title": "SQL & Real-World Data Pipelines Under-Emphasized",
+      "severity": "High",
+      "description": "While academic courses heavily emphasize theoretical mathematics, 89% of industry job postings mandate production SQL, ETL workflows, and data cleaning, where academic coverage averages only 65%.",
+      "metric": "-24.0% Net Gap"
+    },
+    {
+      "title": "Generative AI & LLM Operationalization Shortage",
+      "severity": "Critical",
+      "description": "Industry demand for Generative AI, Retrieval-Augmented Generation (RAG), and fine-tuning has surged to 72% in recent postings, while only 25% of existing degree programs have incorporated GenAI modules.",
+      "metric": "-47.0% Net Gap"
+    },
+    {
+      "title": "Over-indexing on Pure Theoretical Statistics & R",
+      "severity": "Surplus",
+      "description": "Academic curricula dedicate substantial hours to manual mathematical statistics proofs and R programming (coverage: 72-95%), whereas industry recruitment heavily favors Python and practical data engineering tools (R demand: 34%).",
+      "metric": "+38.0% Academic Surplus"
+    }
+  ],
+  "actionable_recommendations": {
+    "universities": [
+      {
+        "target": "Curriculum Modernization",
+        "action": "Integrate mandatory MLOps, Containerization (Docker/Kubernetes), and Cloud Computing (AWS/GCP) in Year 3-4.",
+        "expected_impact": "Boost Year-1 employment from 84% to >95%."
+      },
+      {
+        "target": "Industry Co-op Partnerships",
+        "action": "Partner with tech leaders (e.g., KBTG, Agoda, SCB 10X) for real-world enterprise capstone projects with messy, uncurated datasets.",
+        "expected_impact": "Eliminates employer onboarding friction."
+      },
+      {
+        "target": "Generative AI Labs",
+        "action": "Establish hands-on courses in LLM orchestration (LangChain, LlamaIndex, Vector DBs, evaluation frameworks).",
+        "expected_impact": "Equips graduates with current cutting-edge industry competencies."
+      }
+    ],
+    "job_seekers": [
+      {
+        "target": "Portfolio Architecture",
+        "action": "Build deployed end-to-end projects featuring a live web API, CI/CD pipeline, and Docker container rather than simple Jupyter notebooks.",
+        "expected_impact": "Dramatically distinguishes candidates during technical screening."
+      },
+      {
+        "target": "SQL & Data Engineering Mastery",
+        "action": "Attain advanced SQL proficiency (window functions, query optimization, indexing) and basic ETL tools (dbt, Airflow).",
+        "expected_impact": "Passes 90%+ of technical take-home assessments."
+      },
+      {
+        "target": "Cloud Certifications",
+        "action": "Obtain baseline associate cloud credentials (AWS Certified Solutions Architect or GCP Associate Cloud Engineer).",
+        "expected_impact": "Signals production readiness to hiring managers."
+      }
+    ]
+  }
+}

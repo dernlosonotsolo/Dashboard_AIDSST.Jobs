@@ -1,0 +1,1817 @@
+<!DOCTYPE html>
+<html lang="th" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI, Data Science & Statistics Workforce & Education Intelligence Dashboard</title>
+  
+  <!-- Google Fonts: Inter & Prompt (Thai & English) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'Prompt', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              900: '#312e81'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+
+  <style>
+    body { font-family: 'Inter', 'Prompt', sans-serif; }
+    .tab-active {
+      border-color: #4f46e5;
+      color: #4f46e5;
+      background-color: rgba(79, 70, 229, 0.08);
+    }
+    .dark .tab-active {
+      border-color: #818cf8;
+      color: #c7d2fe;
+      background-color: rgba(99, 102, 241, 0.15);
+    }
+    .chart-container {
+      position: relative;
+      height: 320px;
+      width: 100%;
+    }
+    .chart-container-tall {
+      position: relative;
+      height: 380px;
+      width: 100%;
+    }
+    /* Scrollbar styling */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    .dark ::-webkit-scrollbar-thumb { background: #475569; }
+  </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-200">
+
+  <!-- ================= TOP HEADER / NAVBAR ================= -->
+  <header class="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 sticky top-0 z-30 shadow-sm backdrop-blur-md bg-opacity-95 dark:bg-opacity-95">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        
+        <!-- Logo / Brand Title -->
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-500 flex items-center justify-center text-white shadow-md shadow-indigo-500/20">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+            </svg>
+          </div>
+          <div>
+            <div class="flex items-center space-x-2">
+              <h1 class="text-base sm:text-lg font-bold tracking-tight text-slate-900 dark:text-white">AIDSST Intelligence</h1>
+              <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-950 dark:text-indigo-300">v1.0</span>
+            </div>
+            <p class="text-xs text-slate-500 dark:text-slate-400 hidden sm:block">AI, Data Science & Statistics Workforce & Education Dashboard</p>
+          </div>
+        </div>
+
+        <!-- Global Actions: Currency, Dark Mode, Reset Data -->
+        <div class="flex items-center space-x-2 sm:space-x-4">
+          <!-- Currency Toggle -->
+          <div class="hidden sm:flex items-center bg-slate-100 dark:bg-slate-700/60 p-1 rounded-lg text-xs font-semibold">
+            <button id="curr-thb" onclick="setCurrency('THB')" class="px-2.5 py-1 rounded-md bg-white dark:bg-slate-800 shadow-sm text-indigo-600 dark:text-indigo-400 transition">THB (฿)</button>
+            <button id="curr-usd" onclick="setCurrency('USD')" class="px-2.5 py-1 rounded-md text-slate-600 dark:text-slate-300 hover:text-indigo-600 transition">USD ($)</button>
+          </div>
+
+          <!-- Reset to Baseline Button -->
+          <button onclick="resetDataToDefault()" title="คืนค่าข้อมูลตั้งต้น (Reset Data)" class="p-2 text-slate-500 hover:text-amber-600 dark:text-slate-400 dark:hover:text-amber-400 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition" aria-label="Reset Data">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+            </svg>
+          </button>
+
+          <!-- Dark/Light Mode Toggle -->
+          <button id="theme-toggle" onclick="toggleTheme()" class="p-2 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition" aria-label="Toggle Theme">
+            <svg id="theme-icon-sun" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 9h-1m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+            </svg>
+            <svg id="theme-icon-moon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+            </svg>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav class="flex space-x-1 sm:space-x-3 overflow-x-auto py-2 -mb-px border-t border-slate-100 dark:border-slate-700/50">
+        <button onclick="switchTab('tab-academic')" id="nav-tab-academic" class="tab-btn tab-active px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold flex items-center space-x-2 whitespace-nowrap transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"></path></svg>
+          <span>1. ปริมาณคนที่จบ & สเกลล์ (Academic Supply)</span>
+        </button>
+
+        <button onclick="switchTab('tab-demand')" id="nav-tab-demand" class="tab-btn text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-300 px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold flex items-center space-x-2 whitespace-nowrap transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+          <span>2. ปริมาณงาน & Skills (Industry Demand)</span>
+        </button>
+
+        <button onclick="switchTab('tab-mismatch')" id="nav-tab-mismatch" class="tab-btn text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-300 px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold flex items-center space-x-2 whitespace-nowrap transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+          <span>3. วิเคราะห์ Skill Mismatch</span>
+        </button>
+
+        <button onclick="switchTab('tab-crud')" id="nav-tab-crud" class="tab-btn text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-300 px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold flex items-center space-x-2 whitespace-nowrap transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+          <span>4. Open Data Catalog & CRUD Editor</span>
+        </button>
+      </nav>
+
+    </div>
+  </header>
+
+  <!-- ================= TOP SUMMARY KPI METRIC CARDS ================= -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-2 w-full">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      
+      <!-- Metric 1: Total Graduates -->
+      <div class="bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 shadow-sm flex items-center justify-between">
+        <div>
+          <span class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">ผู้สำเร็จการศึกษา 4 ปี</span>
+          <div id="kpi-total-graduates" class="text-xl sm:text-2xl font-bold text-indigo-600 dark:text-indigo-400 mt-0.5">1,142 คน</div>
+          <span class="text-xs text-emerald-600 font-semibold">↑ +14.2% YoY (2024)</span>
+        </div>
+        <div class="w-10 h-10 rounded-lg bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+        </div>
+      </div>
+
+      <!-- Metric 2: Open Job Positions -->
+      <div class="bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 shadow-sm flex items-center justify-between">
+        <div>
+          <span class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">ตำแหน่งงานว่างปัจจุบัน</span>
+          <div id="kpi-open-vacancies" class="text-xl sm:text-2xl font-bold text-purple-600 dark:text-purple-400 mt-0.5">4,180 อัตรา</div>
+          <span class="text-xs text-purple-600 font-semibold">AI & ML นำอันดับ 1</span>
+        </div>
+        <div class="w-10 h-10 rounded-lg bg-purple-50 dark:bg-purple-950 text-purple-600 dark:text-purple-400 flex items-center justify-center">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+        </div>
+      </div>
+
+      <!-- Metric 3: Starting Salary -->
+      <div class="bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 shadow-sm flex items-center justify-between">
+        <div>
+          <span class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">ฐานเงินเดือนเริ่มต้นเฉลี่ย</span>
+          <div id="kpi-avg-salary" class="text-xl sm:text-2xl font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">฿48,000 /ด.</div>
+          <span class="text-xs text-slate-500 dark:text-slate-400">Entry AI / Data Scientist</span>
+        </div>
+        <div class="w-10 h-10 rounded-lg bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        </div>
+      </div>
+
+      <!-- Metric 4: Severe Skill Gap -->
+      <div class="bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 shadow-sm flex items-center justify-between">
+        <div>
+          <span class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">ช่องว่างทักษะสูงสุด (Gap)</span>
+          <div class="text-xl sm:text-2xl font-bold text-rose-600 dark:text-rose-400 mt-0.5">-56.5% MLOps</div>
+          <span class="text-xs text-rose-600 font-semibold">Critical Curriculum Gap</span>
+        </div>
+        <div class="w-10 h-10 rounded-lg bg-rose-50 dark:bg-rose-950 text-rose-600 dark:text-rose-400 flex items-center justify-center">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= MAIN CONTENT AREA ================= -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-1">
+
+    <!-- ================= TAB 1: ACADEMIC SUPPLY & SKILLS ================= -->
+    <div id="tab-academic" class="tab-content space-y-6">
+      
+      <!-- Tab Header & Quick Filter -->
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+        <div>
+          <h2 class="text-lg font-bold text-slate-900 dark:text-white flex items-center space-x-2">
+            <span>🎓 ปริมาณคนที่จบและสเกลล์ที่เรียนมา (Academic Supply & Skills)</span>
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">วิเคราะห์จำนวนผู้สำเร็จการศึกษา, รายวิชาบังคับตามหลักสูตร, อัตราการได้งานทำ 3 ปี และค่าเล่าเรียน</p>
+        </div>
+        <div class="flex items-center space-x-2">
+          <label class="text-xs font-medium text-slate-600 dark:text-slate-300">กรองสาขาวิชา:</label>
+          <select id="filter-academic-field" onchange="renderTabAcademicCharts()" class="text-xs bg-slate-50 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg px-2.5 py-1.5 focus:ring-2 focus:ring-indigo-500">
+            <option value="ALL">ทุกสาขาวิชา (All Disciplines)</option>
+            <option value="Data Science">Data Science</option>
+            <option value="AI">Artificial Intelligence / AI Eng</option>
+            <option value="Statistics">Statistics & Applied Stat</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Grid Row 1: Graduates Trend + Employment Tracking -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        <!-- Chart 1: Graduates by Program & Year -->
+        <div class="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="text-sm font-bold text-slate-900 dark:text-white">1. ผู้สำเร็จการศึกษาต่อปี (Graduates by Program & Year)</h3>
+              <p class="text-xs text-slate-500 dark:text-slate-400">เปรียบเทียบแนวโน้มจำนวนผู้จบการศึกษาระหว่างปี 2021 - 2024</p>
+            </div>
+            <span class="text-xs px-2 py-1 bg-indigo-50 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300 rounded font-medium">รายปี 2021-2024</span>
+          </div>
+          <div class="chart-container">
+            <canvas id="chart-graduates"></canvas>
+          </div>
+        </div>
+
+        <!-- Chart 2: 3-Year Employment Tracking -->
+        <div class="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="text-sm font-bold text-slate-900 dark:text-white">2. อัตราการได้งานทำตรงสาย 3 ปี (Employment Tracking: Y1-Y3)</h3>
+              <p class="text-xs text-slate-500 dark:text-slate-400">อัตราการมีงานทำในสายงาน AI / Data Science ปีที่ 1, 2 และ 3 หลังสำเร็จการศึกษา</p>
+            </div>
+            <span class="text-xs px-2 py-1 bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 rounded font-medium">อัตราเฉลี่ย 95.2%</span>
+          </div>
+          <div class="chart-container">
+            <canvas id="chart-employment"></canvas>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Grid Row 2: Tuition Fees + Core Courses Matrix -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        <!-- Chart 3: Tuition Fees Benchmark -->
+        <div class="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="text-sm font-bold text-slate-900 dark:text-white">3. ค่าเทอมของหลักสูตร (Tuition Fees Comparison)</h3>
+              <p class="text-xs text-slate-500 dark:text-slate-400">เปรียบเทียบค่าธรรมเนียมการศึกษาตลอดหลักสูตร 4 ปี (THB)</p>
+            </div>
+            <span class="text-xs px-2 py-1 bg-amber-50 text-amber-700 dark:bg-amber-950 dark:text-amber-300 rounded font-medium">4-Year Total</span>
+          </div>
+          <div class="chart-container">
+            <canvas id="chart-tuition"></canvas>
+          </div>
+        </div>
+
+        <!-- Component 4: Required Core Courses Matrix Table -->
+        <div class="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <h3 class="text-sm font-bold text-slate-900 dark:text-white">4. รายวิชาบังคับที่สอดคล้องกับสายงาน (Required Core Courses)</h3>
+              <p class="text-xs text-slate-500 dark:text-slate-400">หลักสูตรแกนกลางที่สอนเทียบกับความต้องการในตลาดอุตสาหกรรม</p>
+            </div>
+            <input type="text" id="course-search-input" onkeyup="filterCoursesTable()" placeholder="ค้นหาวิชา..." class="text-xs px-2.5 py-1 bg-slate-50 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg w-32 focus:w-44 transition-all">
+          </div>
+
+          <div class="overflow-y-auto max-h-[310px] border border-slate-200 dark:border-slate-700 rounded-lg">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-50 dark:bg-slate-700/60 sticky top-0 text-slate-600 dark:text-slate-300 font-semibold border-b border-slate-200 dark:border-slate-700">
+                <tr>
+                  <th class="p-2.5">รหัสวิชา</th>
+                  <th class="p-2.5">ชื่อวิชาบังคับ</th>
+                  <th class="p-2.5">สายงานที่ตรง</th>
+                  <th class="p-2.5 text-center">Industry Demand</th>
+                </tr>
+              </thead>
+              <tbody id="course-matrix-tbody" class="divide-y divide-slate-100 dark:divide-slate-700/60">
+                <!-- Dynamically rendered -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ================= TAB 2: INDUSTRY DEMAND & REQUIRED SKILLS ================= -->
+    <div id="tab-demand" class="tab-content hidden space-y-6">
+      
+      <!-- Tab Header -->
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+        <div>
+          <h2 class="text-lg font-bold text-slate-900 dark:text-white flex items-center space-x-2">
+            <span>💼 ปริมาณงานที่จ้าง และ Skills ที่ต้องการ (Industry Demand & Required Skills)</span>
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">สำรวจตำแหน่งงานว่างในตลาด, ทักษะทางเทคนิคที่ต้องการสูงสุด, บริษัทชั้นนำที่รับสมัคร และโครงสร้างเงินเดือน</p>
+        </div>
+        <div class="flex items-center space-x-2">
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+            ● ตลาดแรงงานเติบโตเฉลี่ย 21.5% ต่อปี
+          </span>
+        </div>
+      </div>
+
+      <!-- Grid Row 1: Job Vacancies Breakdown & Top Required Skills -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        <!-- Chart 1: Open Vacancies by Sub-Field -->
+        <div class="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="text-sm font-bold text-slate-900 dark:text-white">1. ปริมาณตำแหน่งงานว่างจำแนกตามสายงาน (Open Job Positions)</h3>
+              <p class="text-xs text-slate-500 dark:text-slate-400">สัดส่วนตำแหน่งงานว่าง AI, Data Science, Data Analytics และ Statistics</p>
+            </div>
+            <span class="text-xs px-2 py-1 bg-purple-50 text-purple-700 dark:bg-purple-950 dark:text-purple-300 rounded font-medium">รวม 4,180 ตำแหน่ง</span>
+          </div>
+          <div class="chart-container">
+            <canvas id="chart-vacancies"></canvas>
+          </div>
+        </div>
+
+        <!-- Chart 2: Top Required Skills Frequency -->
+        <div class="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="text-sm font-bold text-slate-900 dark:text-white">2. ทักษะที่เป็นที่ต้องการสูงสุด (Top Required Skills in Job Market)</h3>
+              <p class="text-xs text-slate-500 dark:text-slate-400">ความถี่ของทักษะที่ระบุในประกาศรับสมัครงาน (% Demand Frequency)</p>
+            </div>
+            <div class="flex items-center space-x-1">
+              <button onclick="filterSkillsChart('ALL')" class="text-xs px-2 py-0.5 rounded bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300">All</button>
+              <button onclick="filterSkillsChart('Core Tech')" class="text-xs px-2 py-0.5 rounded hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300">Tech</button>
+              <button onclick="filterSkillsChart('Production & Ops')" class="text-xs px-2 py-0.5 rounded hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300">Ops</button>
+            </div>
+          </div>
+          <div class="chart-container">
+            <canvas id="chart-skills-demand"></canvas>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Grid Row 2: Hiring Companies + Salaries by Career Tier -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        <!-- Component 3: Top Hiring Companies Leaderboard -->
+        <div class="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <h3 class="text-sm font-bold text-slate-900 dark:text-white">3. บริษัทชั้นนำที่รับสมัครงาน (Top Hiring Companies)</h3>
+              <p class="text-xs text-slate-500 dark:text-slate-400">องค์กรและกลุ่มเทคโนโลยีที่มีตำแหน่งงานเปิดรับสูงสุด</p>
+            </div>
+            <span class="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded font-medium">9 องค์กรใหญ่</span>
+          </div>
+          <div class="overflow-y-auto max-h-[330px] border border-slate-200 dark:border-slate-700 rounded-lg">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-50 dark:bg-slate-700/60 sticky top-0 text-slate-600 dark:text-slate-300 font-semibold border-b border-slate-200 dark:border-slate-700">
+                <tr>
+                  <th class="p-2.5">ชื่อองค์กร / บริษัท</th>
+                  <th class="p-2.5">อุตสาหกรรม</th>
+                  <th class="p-2.5 text-center">ตำแหน่งเปิด</th>
+                  <th class="p-2.5">ตำแหน่งสำคัญที่มองหา</th>
+                </tr>
+              </thead>
+              <tbody id="companies-table-tbody" class="divide-y divide-slate-100 dark:divide-slate-700/60">
+                <!-- Dynamically rendered -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Chart 4: Salary Structure by Career Level -->
+        <div class="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="text-sm font-bold text-slate-900 dark:text-white">4. โครงสร้างเงินเดือนตามระดับการทำงาน (Salaries by Career Levels)</h3>
+              <p class="text-xs text-slate-500 dark:text-slate-400">เปรียบเทียบฐานเงินเดือนขั้นต่ำ - กลาง - สูงสุด (Min, Median, Max)</p>
+            </div>
+            <span id="salary-currency-badge" class="text-xs px-2 py-1 bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 rounded font-medium">สกุลเงิน THB (บาท/เดือน)</span>
+          </div>
+          <div class="chart-container">
+            <canvas id="chart-salaries"></canvas>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ================= TAB 3: SKILL MISMATCH ANALYSIS ================= -->
+    <div id="tab-mismatch" class="tab-content hidden space-y-6">
+      
+      <!-- Tab Header -->
+      <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+        <h2 class="text-lg font-bold text-slate-900 dark:text-white flex items-center space-x-2">
+          <span>⚖️ วิเคราะห์ Skill Mismatch (Skill Gap & Mismatch Analysis)</span>
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">เปรียบเทียบสิ่งที่มหาวิทยาลัยสอน (Supply) กับสิ่งที่ตลาดต้องการจริง (Demand) พร้อมข้อเสนอแนะเชิงยุทธศาสตร์</p>
+      </div>
+
+      <!-- Skill Gap Comparison Visualizations -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        <!-- Chart 1: Diverging Bar Chart (Curriculum Coverage vs Market Demand) -->
+        <div class="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <h3 class="text-sm font-bold text-slate-900 dark:text-white">1. ส่วนต่างทักษะ Net Skill Gap (% Gap Analysis)</h3>
+              <p class="text-xs text-slate-500 dark:text-slate-400"><span class="text-rose-500 font-semibold">ลบ = ตลาดขาดแคลนหนัก</span> | <span class="text-emerald-500 font-semibold">บวก = มหาวิทยาลัยเน้นสูงกว่าความต้องการตลาด</span></p>
+            </div>
+          </div>
+          <div class="chart-container-tall">
+            <canvas id="chart-skill-gap"></canvas>
+          </div>
+        </div>
+
+        <!-- Chart 2: Radar Chart (Curriculum Supply vs Market Demand Overlay) -->
+        <div class="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <h3 class="text-sm font-bold text-slate-900 dark:text-white">2. แผนภาพเรดาร์ Supply vs Demand Radar</h3>
+              <p class="text-xs text-slate-500 dark:text-slate-400">เปรียบเทียบความครอบคลุมของหลักสูตร (น้ำเงิน) กับความต้องการของตลาด (ม่วง)</p>
+            </div>
+            <span class="text-xs px-2 py-0.5 bg-indigo-50 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300 rounded font-medium">10 มิติทักษะหลัก</span>
+          </div>
+          <div class="chart-container-tall">
+            <canvas id="chart-radar-gap"></canvas>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Mismatch Insights Panel -->
+      <div class="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h3 class="text-sm font-bold text-slate-900 dark:text-white">3. Mismatch Insights Panel (การวิเคราะห์เชิงลึกอัตโนมัติ)</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400">สรุปความไม่สอดคล้องหลักระหว่างหลักสูตรการศึกษาและตำแหน่งงานจริง</p>
+          </div>
+          <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300">
+            ตรวจพบ 4 ประเด็นเร่งด่วน
+          </span>
+        </div>
+
+        <div id="mismatch-insights-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Dynamically rendered -->
+        </div>
+      </div>
+
+      <!-- Actionable Recommendations for Academia & Job Seekers -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <!-- For Universities -->
+        <div class="bg-gradient-to-br from-indigo-50/50 to-white dark:from-slate-800 dark:to-slate-800/60 rounded-xl p-5 border border-indigo-200 dark:border-indigo-900/50 shadow-sm">
+          <div class="flex items-center space-x-2 text-indigo-700 dark:text-indigo-300 mb-3">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+            <h3 class="text-sm font-bold uppercase tracking-wider">ข้อเสนอแนะสำหรับสถาบันการศึกษา (Universities)</h3>
+          </div>
+          <div id="recs-universities-list" class="space-y-3">
+            <!-- Dynamically rendered -->
+          </div>
+        </div>
+
+        <!-- For Job Seekers / Students -->
+        <div class="bg-gradient-to-br from-emerald-50/50 to-white dark:from-slate-800 dark:to-slate-800/60 rounded-xl p-5 border border-emerald-200 dark:border-emerald-900/50 shadow-sm">
+          <div class="flex items-center space-x-2 text-emerald-700 dark:text-emerald-300 mb-3">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+            <h3 class="text-sm font-bold uppercase tracking-wider">ข้อเสนอแนะสำหรับผู้หางาน & นักศึกษา (Job Seekers)</h3>
+          </div>
+          <div id="recs-jobseekers-list" class="space-y-3">
+            <!-- Dynamically rendered -->
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ================= TAB 4: OPEN DATA CATALOG & CRUD EDITOR ================= -->
+    <div id="tab-crud" class="tab-content hidden space-y-6">
+      
+      <!-- Tab Header with Search & Export Buttons -->
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 bg-white dark:bg-slate-800 p-5 rounded-xl border border-slate-200 dark:border-slate-700">
+        <div>
+          <h2 class="text-lg font-bold text-slate-900 dark:text-white flex items-center space-x-2">
+            <span>🗂️ Open Data Catalog & Interactive CRUD Editor</span>
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">ค้นหา, แก้ไข, เพิ่ม, ลบข้อมูล Open Data ทั้ง 7 มิติ และส่งออกกลับเป็น Markdown หรือ JSON</p>
+        </div>
+
+        <!-- Action Buttons: Export & Add -->
+        <div class="flex flex-wrap items-center gap-2">
+          <button onclick="exportToJSON()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 flex items-center space-x-1.5 transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+            <span>Export JSON</span>
+          </button>
+          
+          <button onclick="exportToMarkdown()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-950 dark:hover:bg-indigo-900 text-indigo-700 dark:text-indigo-300 flex items-center space-x-1.5 transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            <span>Export Markdown (.md)</span>
+          </button>
+
+          <button onclick="openAddItemModal()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 hover:bg-indigo-700 text-white flex items-center space-x-1.5 shadow-sm transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+            <span>+ เพิ่มข้อมูลใหม่ (Add Item)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Real-time Search & Category Selector -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        
+        <!-- Search Bar -->
+        <div class="md:col-span-2 relative">
+          <input type="text" id="global-search-input" onkeyup="handleGlobalSearch()" placeholder="ค้นหาคำสำคัญในชุดข้อมูลทั้งหมด (เช่น Python, OECD, Junior, KBTG, Chula)..." class="w-full pl-10 pr-4 py-2 text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none shadow-sm">
+          <svg class="w-5 h-5 absolute left-3 top-2.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        </div>
+
+        <!-- Category Selector -->
+        <div>
+          <select id="crud-category-select" onchange="renderActiveCategoryTable()" class="w-full py-2 px-3 text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none shadow-sm">
+            <option value="graduates">1. จำนวนผู้สำเร็จการศึกษา (Graduates)</option>
+            <option value="employment">2. อัตราการมีงานทำ (Employment Rate)</option>
+            <option value="salaries">3. เงินเดือนเริ่มต้น (Starting Salaries)</option>
+            <option value="companies">4. บริษัทที่รับสมัคร (Hiring Companies)</option>
+            <option value="countries">5. ประเทศที่มีตลาดแรงงานสูง (Global Hubs)</option>
+            <option value="skills">6. ทักษะที่จำเป็น (Required Skills)</option>
+            <option value="career_levels">7. ระดับของสายงาน (Career Tiers)</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- Active Category Detail & Source Links Header -->
+      <div class="bg-indigo-50/70 dark:bg-indigo-950/40 p-4 rounded-xl border border-indigo-100 dark:border-indigo-900/50 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+        <div>
+          <h3 id="cat-header-title" class="text-sm font-bold text-indigo-950 dark:text-indigo-200">หมวดหมู่ข้อมูล</h3>
+          <p id="cat-header-desc" class="text-xs text-indigo-700/80 dark:text-indigo-400">คำอธิบาย</p>
+        </div>
+        <!-- External Source Links -->
+        <div id="cat-header-sources" class="flex flex-wrap items-center gap-1.5 text-xs">
+          <!-- Dynamic Links -->
+        </div>
+      </div>
+
+      <!-- Interactive CRUD Table -->
+      <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead id="crud-table-thead" class="bg-slate-50 dark:bg-slate-700/60 text-slate-700 dark:text-slate-300 font-semibold border-b border-slate-200 dark:border-slate-700">
+              <!-- Dynamically populated headers -->
+            </thead>
+            <tbody id="crud-table-tbody" class="divide-y divide-slate-100 dark:divide-slate-700/60">
+              <!-- Dynamically populated rows -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 py-4 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500 dark:text-slate-400">
+      <div>
+        <span>AI & Data Science Workforce & Education Intelligence Dashboard</span>
+        <span class="mx-2">•</span>
+        <span>Open Data Driven (OECD, BLS, Kaggle, MHESI Thailand)</span>
+      </div>
+      <div class="flex items-center space-x-3">
+        <span>Persistent Storage: <strong id="storage-status" class="text-emerald-600 dark:text-emerald-400">localStorage Active</strong></span>
+        <span>•</span>
+        <a href="https://github.com/dernlosonotsolo/Dashboard_AIDSST.Jobs" target="_blank" class="hover:text-indigo-600 dark:hover:text-indigo-400 underline">GitHub Repo</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= EDIT / ADD MODAL DIALOG ================= -->
+  <div id="crud-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-700 max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-700">
+        <h3 id="modal-title" class="text-base font-bold text-slate-900 dark:text-white">เพิ่มรายการข้อมูลใหม่</h3>
+        <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+
+      <!-- Modal Dynamic Form Container -->
+      <form id="modal-form" onsubmit="handleModalSubmit(event)" class="space-y-3 py-4 overflow-y-auto flex-1 text-xs">
+        <input type="hidden" id="modal-item-id">
+        <input type="hidden" id="modal-item-mode"> <!-- 'add' or 'edit' -->
+        <div id="modal-fields-container" class="space-y-3">
+          <!-- Dynamically generated fields based on category -->
+        </div>
+
+        <div class="pt-4 border-t border-slate-100 dark:border-slate-700 flex items-center justify-end space-x-2">
+          <button type="button" onclick="closeModal()" class="px-4 py-2 rounded-lg font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition">ยกเลิก (Cancel)</button>
+          <button type="submit" class="px-4 py-2 rounded-lg font-semibold bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm transition">บันทึกข้อมูล (Save)</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= EXPORT MARKDOWN MODAL ================= -->
+  <div id="export-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-2xl w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-700 max-h-[85vh] flex flex-col">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-700">
+        <h3 class="text-base font-bold text-slate-900 dark:text-white">Exported Markdown (.md)</h3>
+        <button onclick="closeExportModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+
+      <div class="py-3 flex-1 overflow-hidden flex flex-col">
+        <p class="text-xs text-slate-500 mb-2">คุณสามารถคัดลอก Markdown ด้านล่าง หรือกดปุ่มดาวน์โหลดไฟล์ (.md) ได้ทันที:</p>
+        <textarea id="export-markdown-content" readonly class="w-full flex-1 p-3 bg-slate-50 dark:bg-slate-900 font-mono text-xs border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none"></textarea>
+      </div>
+
+      <div class="pt-3 border-t border-slate-100 dark:border-slate-700 flex items-center justify-end space-x-2">
+        <button onclick="copyExportMarkdown()" class="px-4 py-2 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 transition">📋 คัดลอก (Copy)</button>
+        <button onclick="downloadExportMarkdown()" class="px-4 py-2 rounded-lg text-xs font-semibold bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm transition">⬇️ ดาวน์โหลด .md</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Alert -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-slate-900 text-white text-xs px-4 py-3 rounded-xl shadow-lg flex items-center space-x-2 border border-slate-700">
+    <span id="toast-icon">✓</span>
+    <span id="toast-message">Message</span>
+  </div>
+
+  <!-- ================= DASHBOARD CORE LOGIC JAVASCRIPT ================= -->
+  <script>
+    // --- STATE MANAGEMENT ---
+    let appData = null;
+    let baselineData = null;
+    let currentCurrency = 'THB'; // 'THB' or 'USD'
+    let currentActiveCategory = 'graduates';
+    let chartInstances = {};
+
+    // Initial load: Embedded fallback dataset if fetch fails or for standalone offline opening
+    const SEED_DATA = {
+      "metadata": {
+        "title": "AI, Data Science & Statistics Workforce and Education Intelligence Dataset",
+        "version": "1.0.0",
+        "last_updated": "2026-10-05"
+      },
+      "categories": [
+        {
+          "id": "graduates",
+          "name": "จำนวนผู้สำเร็จการศึกษา (Graduates)",
+          "description": "สถิติผู้จบการศึกษาด้าน AI, Data Science และ Statistics ประจำปี 2021 - 2024",
+          "sources": [
+            {"title": "OECD Education and Skills Statistics", "url": "https://data.oecd.org/edu/graduates-rate.htm"},
+            {"title": "Kaggle STEM Graduates Dataset", "url": "https://www.kaggle.com/datasets"},
+            {"title": "MHESI Open Data Thailand", "url": "https://data.go.th/"}
+          ],
+          "items": [
+            {"id": "G001", "program": "B.Sc. Data Science & AI", "university": "Chulalongkorn University", "graduates_2021": 45, "graduates_2022": 52, "graduates_2023": 60, "graduates_2024": 68, "total_4yr": 225, "field": "Data Science"},
+            {"id": "G002", "program": "B.Sc. Data Science", "university": "Chiang Mai University", "graduates_2021": 38, "graduates_2022": 44, "graduates_2023": 50, "graduates_2024": 55, "total_4yr": 187, "field": "Data Science"},
+            {"id": "G003", "program": "B.Eng. AI System Engineering", "university": "KMITL", "graduates_2021": 30, "graduates_2022": 42, "graduates_2023": 55, "graduates_2024": 65, "total_4yr": 192, "field": "AI"},
+            {"id": "G004", "program": "B.Sc. Applied Statistics & DS", "university": "Thammasat University", "graduates_2021": 50, "graduates_2022": 55, "graduates_2023": 58, "graduates_2024": 62, "total_4yr": 225, "field": "Statistics"},
+            {"id": "G005", "program": "B.Sc. Data Science & MedInfo", "university": "Mahidol University", "graduates_2021": 25, "graduates_2022": 32, "graduates_2023": 40, "graduates_2024": 48, "total_4yr": 145, "field": "Data Science"},
+            {"id": "G006", "program": "B.Sc. Artificial Intelligence", "university": "Khon Kaen University", "graduates_2021": 28, "graduates_2022": 35, "graduates_2023": 44, "graduates_2024": 52, "total_4yr": 159, "field": "AI"},
+            {"id": "G007", "program": "B.Sc. Computer Science (Big Data)", "university": "KMUTT", "graduates_2021": 42, "graduates_2022": 48, "graduates_2023": 56, "graduates_2024": 63, "total_4yr": 209, "field": "Data Science"}
+          ]
+        },
+        {
+          "id": "employment",
+          "name": "อัตราการมีงานทำ (Employment Rate)",
+          "description": "สถิติอัตราการจ้างงานตรงสายงานหลังจบการศึกษา ในปีที่ 1, ปีที่ 2 และปีที่ 3",
+          "sources": [
+            {"title": "US BLS Data Scientists Projections", "url": "https://www.bls.gov/ooh/math/data-scientists.htm"},
+            {"title": "Kaggle Data Science Employment Trends", "url": "https://www.kaggle.com/datasets/saurabhshahane/data-science-jobs-salaries"},
+            {"title": "MHESI Graduate Employment Survey", "url": "https://data.go.th/"}
+          ],
+          "items": [
+            {"id": "E001", "program": "Data Science & AI (CU)", "field": "Data Science", "year_1_rate": 88.5, "year_2_rate": 94.2, "year_3_rate": 97.5, "top_sector": "FinTech & Banking"},
+            {"id": "E002", "program": "AI System Engineering (KMITL)", "field": "AI", "year_1_rate": 85.0, "year_2_rate": 92.8, "year_3_rate": 96.0, "top_sector": "Industrial AI & Auto"},
+            {"id": "E003", "program": "Data Science (CMU)", "field": "Data Science", "year_1_rate": 82.0, "year_2_rate": 89.5, "year_3_rate": 93.8, "top_sector": "Software & Consulting"},
+            {"id": "E004", "program": "Applied Statistics & DS (TU)", "field": "Statistics", "year_1_rate": 84.5, "year_2_rate": 91.0, "year_3_rate": 95.2, "top_sector": "Insurance & Risk"},
+            {"id": "E005", "program": "Data Science & MedInfo (MU)", "field": "Data Science", "year_1_rate": 86.0, "year_2_rate": 93.5, "year_3_rate": 96.8, "top_sector": "Healthcare & Biotech"},
+            {"id": "E006", "program": "Artificial Intelligence (KKU)", "field": "AI", "year_1_rate": 80.5, "year_2_rate": 87.5, "year_3_rate": 92.0, "top_sector": "Smart Logistics & Agri"}
+          ]
+        },
+        {
+          "id": "salaries",
+          "name": "เงินเดือนเริ่มต้นและโครงสร้างค่าตอบแทน (Salaries)",
+          "description": "โครงสร้างค่าตอบแทนและฐานเงินเดือนสำหรับบัณฑิตจบใหม่และผู้มีประสบการณ์ตามระดับ",
+          "sources": [
+            {"title": "Kaggle Data Science & AI Salaries", "url": "https://www.kaggle.com/datasets/adilshamim8/salaries-for-data-science-jobs/data"},
+            {"title": "Open Government Data Thailand Salary Reports", "url": "https://data.go.th/"}
+          ],
+          "items": [
+            {"id": "S001", "role": "AI / ML Engineer", "level": "Entry (0-2 Yrs)", "salary_min_thb": 35000, "salary_median_thb": 48000, "salary_max_thb": 65000, "salary_usd_annual": 17000},
+            {"id": "S002", "role": "AI / ML Engineer", "level": "Mid (3-5 Yrs)", "salary_min_thb": 65000, "salary_median_thb": 90000, "salary_max_thb": 125000, "salary_usd_annual": 32000},
+            {"id": "S003", "role": "AI / ML Engineer", "level": "Senior / Lead (5+ Yrs)", "salary_min_thb": 120000, "salary_median_thb": 165000, "salary_max_thb": 240000, "salary_usd_annual": 58000},
+            {"id": "S004", "role": "Data Scientist", "level": "Entry (0-2 Yrs)", "salary_min_thb": 32000, "salary_median_thb": 45000, "salary_max_thb": 60000, "salary_usd_annual": 15500},
+            {"id": "S005", "role": "Data Scientist", "level": "Mid (3-5 Yrs)", "salary_min_thb": 58000, "salary_median_thb": 82000, "salary_max_thb": 115000, "salary_usd_annual": 29000},
+            {"id": "S006", "role": "Data Scientist", "level": "Senior / Lead (5+ Yrs)", "salary_min_thb": 110000, "salary_median_thb": 150000, "salary_max_thb": 220000, "salary_usd_annual": 53000},
+            {"id": "S007", "role": "Data Analyst / BI", "level": "Entry (0-2 Yrs)", "salary_min_thb": 28000, "salary_median_thb": 38000, "salary_max_thb": 50000, "salary_usd_annual": 13200},
+            {"id": "S008", "role": "Data Analyst / BI", "level": "Mid (3-5 Yrs)", "salary_min_thb": 48000, "salary_median_thb": 68000, "salary_max_thb": 95000, "salary_usd_annual": 24000},
+            {"id": "S009", "role": "Data Analyst / BI", "level": "Senior / Lead (5+ Yrs)", "salary_min_thb": 90000, "salary_median_thb": 125000, "salary_max_thb": 175000, "salary_usd_annual": 44000},
+            {"id": "S010", "role": "Statistician / Actuary", "level": "Entry (0-2 Yrs)", "salary_min_thb": 30000, "salary_median_thb": 42000, "salary_max_thb": 55000, "salary_usd_annual": 14800},
+            {"id": "S011", "role": "Statistician / Actuary", "level": "Mid (3-5 Yrs)", "salary_min_thb": 55000, "salary_median_thb": 80000, "salary_max_thb": 120000, "salary_usd_annual": 28500},
+            {"id": "S012", "role": "Statistician / Actuary", "level": "Senior / Lead (5+ Yrs)", "salary_min_thb": 115000, "salary_median_thb": 160000, "salary_max_thb": 230000, "salary_usd_annual": 56000}
+          ]
+        },
+        {
+          "id": "companies",
+          "name": "บริษัทที่รับสมัคร (Hiring Companies)",
+          "description": "รายชื่อบริษัทเทคโนโลยีและองค์กรชั้นนำที่เปิดรับตำแหน่งสาย Data & AI",
+          "sources": [
+            {"title": "GitHub Top AI & Tech Companies Dataset", "url": "https://github.com/collections/machine-learning"},
+            {"title": "Kaggle Tech Job Postings", "url": "https://www.kaggle.com/datasets"}
+          ],
+          "items": [
+            {"id": "C001", "name": "Agoda", "industry": "Travel Tech Platform", "open_positions": 34, "locations": "Bangkok", "top_roles": "Data Scientist, ML Engineer", "hiring_level": "Entry, Mid, Senior"},
+            {"id": "C002", "name": "KBTG (Kasikorn Bank)", "industry": "FinTech & Banking", "open_positions": 42, "locations": "Nonthaburi", "top_roles": "AI Research Eng, MLOps Lead", "hiring_level": "All Levels"},
+            {"id": "C003", "name": "SCBX DataX", "industry": "FinTech & AI Venture", "open_positions": 28, "locations": "Bangkok", "top_roles": "GenAI Eng, Quantitative Analyst", "hiring_level": "Mid, Senior"},
+            {"id": "C004", "name": "LINE MAN Wongnai", "industry": "On-demand SuperApp", "open_positions": 25, "locations": "Bangkok", "top_roles": "Recommendation System Eng", "hiring_level": "Entry, Mid"},
+            {"id": "C005", "name": "True Digital Group", "industry": "Telco & IoT", "open_positions": 31, "locations": "Bangkok", "top_roles": "Big Data Eng, Computer Vision", "hiring_level": "All Levels"},
+            {"id": "C006", "name": "Central Tech (CRC)", "industry": "Retail Tech", "open_positions": 22, "locations": "Bangkok", "top_roles": "Customer Data Platform Eng", "hiring_level": "Entry, Mid"},
+            {"id": "C007", "name": "Shopee / Sea Group", "industry": "E-Commerce", "open_positions": 19, "locations": "Bangkok", "top_roles": "Fraud Detection ML, BI Analyst", "hiring_level": "Entry, Mid"},
+            {"id": "C008", "name": "Bitkub Capital Group", "industry": "FinTech & Web3", "open_positions": 16, "locations": "Bangkok", "top_roles": "Quant Analyst, ML Ops", "hiring_level": "Mid, Senior"},
+            {"id": "C009", "name": "PTT Digital Solutions", "industry": "Energy & Enterprise", "open_positions": 24, "locations": "Bangkok / Rayong", "top_roles": "Industrial AI, Predictive DS", "hiring_level": "Mid, Senior"}
+          ]
+        },
+        {
+          "id": "countries",
+          "name": "ประเทศที่มีตลาดแรงงานสูง (Global Hubs)",
+          "description": "ประเทศที่มีอัตราการจ้างงานและความต้องการบุคลากรเข้มข้นพร้อมดัชนีเงินเดือนเฉลี่ย",
+          "sources": [
+            {"title": "OECD.AI Policy Observatory", "url": "https://oecd.ai/en/data-insights"},
+            {"title": "Kaggle Global Salary Landscape", "url": "https://www.kaggle.com/datasets/lainguyn123/data-science-salary-landscape"}
+          ],
+          "items": [
+            {"id": "CTR01", "country": "United States", "region": "North America", "demand_index": 98.5, "avg_annual_salary_usd": 142000, "dominant_specialties": "GenAI, LLMs, MLOps"},
+            {"id": "CTR02", "country": "Singapore", "region": "Southeast Asia", "demand_index": 89.2, "avg_annual_salary_usd": 85000, "dominant_specialties": "FinTech AI, Quantitative"},
+            {"id": "CTR03", "country": "Germany", "region": "Europe", "demand_index": 84.7, "avg_annual_salary_usd": 88000, "dominant_specialties": "Automotive AI, Robotics"},
+            {"id": "CTR04", "country": "United Kingdom", "region": "Europe", "demand_index": 86.4, "avg_annual_salary_usd": 92000, "dominant_specialties": "Biotech, Health AI, FinTech"},
+            {"id": "CTR05", "country": "Thailand", "region": "Southeast Asia", "demand_index": 73.5, "avg_annual_salary_usd": 32000, "dominant_specialties": "Retail DS, Banking/FinTech"},
+            {"id": "CTR06", "country": "Japan", "region": "East Asia", "demand_index": 81.0, "avg_annual_salary_usd": 74000, "dominant_specialties": "Robotics, Smart Manufacturing"}
+          ]
+        },
+        {
+          "id": "skills",
+          "name": "ทักษะที่จำเป็น (Required Skills)",
+          "description": "Hard Skills & Soft Skills ที่ระบุในประกาศรับสมัครงานมากที่สุด",
+          "sources": [
+            {"title": "Kaggle Job Description Text Mining", "url": "https://www.kaggle.com/datasets"},
+            {"title": "GitHub Awesome Data Science Skills", "url": "https://github.com/topics/data-science-skills"}
+          ],
+          "items": [
+            {"id": "SK01", "name": "Python Programming", "type": "Technical / Programming", "market_demand_pct": 94.5, "curriculum_coverage_pct": 90.0, "gap_pct": -4.5, "criticality": "Essential", "category": "Core Tech"},
+            {"id": "SK02", "name": "SQL & Relational Databases", "type": "Technical / Data Engineering", "market_demand_pct": 89.0, "curriculum_coverage_pct": 65.0, "gap_pct": -24.0, "criticality": "Essential", "category": "Data Ops"},
+            {"id": "SK03", "name": "Machine Learning Algorithms", "type": "Technical / Modeling", "market_demand_pct": 85.5, "curriculum_coverage_pct": 85.0, "gap_pct": -0.5, "criticality": "Essential", "category": "Core Tech"},
+            {"id": "SK04", "name": "Cloud Platforms (AWS/GCP/Azure)", "type": "Technical / Infrastructure", "market_demand_pct": 82.0, "curriculum_coverage_pct": 28.0, "gap_pct": -54.0, "criticality": "Critical Deficit", "category": "Production & Ops"},
+            {"id": "SK05", "name": "MLOps & CI/CD Pipelines", "type": "Technical / Production", "market_demand_pct": 78.5, "curriculum_coverage_pct": 22.0, "gap_pct": -56.5, "criticality": "Critical Deficit", "category": "Production & Ops"},
+            {"id": "SK06", "name": "Deep Learning & PyTorch/TF", "type": "Technical / AI", "market_demand_pct": 76.0, "curriculum_coverage_pct": 52.0, "gap_pct": -24.0, "criticality": "High Priority", "category": "AI Specialty"},
+            {"id": "SK07", "name": "Generative AI & LLM Fine-Tuning", "type": "Technical / Modern AI", "market_demand_pct": 72.0, "curriculum_coverage_pct": 25.0, "gap_pct": -47.0, "criticality": "Critical Deficit", "category": "AI Specialty"},
+            {"id": "SK08", "name": "Big Data (Apache Spark, Kafka)", "type": "Technical / Distributed", "market_demand_pct": 68.0, "curriculum_coverage_pct": 32.0, "gap_pct": -36.0, "criticality": "High Priority", "category": "Data Ops"},
+            {"id": "SK09", "name": "Business Intelligence (Tableau, PowerBI)", "type": "Technical / Viz", "market_demand_pct": 64.0, "curriculum_coverage_pct": 48.0, "gap_pct": -16.0, "criticality": "Moderate", "category": "Core Tech"},
+            {"id": "SK10", "name": "Statistical Modeling & Testing", "type": "Mathematical Foundation", "market_demand_pct": 62.0, "curriculum_coverage_pct": 95.0, "gap_pct": 33.0, "criticality": "Academic Surplus", "category": "Math & Theory"},
+            {"id": "SK11", "name": "R Programming", "type": "Technical / Statistical Computing", "market_demand_pct": 34.0, "curriculum_coverage_pct": 72.0, "gap_pct": 38.0, "criticality": "Academic Surplus", "category": "Math & Theory"},
+            {"id": "SK12", "name": "Business Communication & Storytelling", "type": "Soft Skill", "market_demand_pct": 82.0, "curriculum_coverage_pct": 40.0, "gap_pct": -42.0, "criticality": "High Priority", "category": "Soft Skills"},
+            {"id": "SK13", "name": "Agile / Scrum Collaboration", "type": "Process & Mindset", "market_demand_pct": 75.0, "curriculum_coverage_pct": 35.0, "gap_pct": -40.0, "criticality": "High Priority", "category": "Soft Skills"}
+          ]
+        },
+        {
+          "id": "career_levels",
+          "name": "ระดับของสายงาน (Career Tiers)",
+          "description": "การแบ่งระดับ Entry, Mid, และ Senior / Lead พร้อมความรับผิดชอบหลัก",
+          "sources": [
+            {"title": "Industry Standard Career Frameworks", "url": "https://github.com/topics/data-science-skills"}
+          ],
+          "items": [
+            {
+              "id": "LVL01",
+              "tier": "Entry-Level (Junior)",
+              "years_exp": "0 - 2 Years",
+              "education_focus": "B.Sc. in DS/AI/Stat/CS",
+              "core_responsibilities": "Data cleaning, exploratory data analysis (EDA), baseline ML modeling.",
+              "salary_benchmark_thb": "30,000 - 55,000",
+              "expected_autonomy": "Guided by senior engineers; task-oriented deliverables."
+            },
+            {
+              "id": "LVL02",
+              "tier": "Mid-Level Professional",
+              "years_exp": "3 - 5 Years",
+              "education_focus": "Bachelor's / Master's Degree",
+              "core_responsibilities": "End-to-end model development, feature engineering, containerization (Docker).",
+              "salary_benchmark_thb": "60,000 - 110,000",
+              "expected_autonomy": "Independent problem solving; cross-functional collaboration."
+            },
+            {
+              "id": "LVL03",
+              "tier": "Senior / Lead Specialist",
+              "years_exp": "5 - 8 Years",
+              "education_focus": "Master's / Ph.D. or Track Record",
+              "core_responsibilities": "System architecture, MLOps infrastructure, ML strategy, mentorship.",
+              "salary_benchmark_thb": "115,000 - 200,000+",
+              "expected_autonomy": "Strategic leadership; drives tech roadmap."
+            },
+            {
+              "id": "LVL04",
+              "tier": "Principal / Head of AI & Data",
+              "years_exp": "8+ Years",
+              "education_focus": "Proven Executive Leadership",
+              "core_responsibilities": "Executive stakeholder management, enterprise AI transformation.",
+              "salary_benchmark_thb": "200,000 - 350,000+",
+              "expected_autonomy": "Executive direction across business units."
+            }
+          ]
+        }
+      ],
+      "curriculum_courses": [
+        {"code": "DS101", "name": "Introduction to Data Science & Python", "type": "Core Mandatory", "credits": 3, "aligned_domain": "Data Science", "demand_weight": 95},
+        {"code": "AI201", "name": "Machine Learning Foundations & Algorithms", "type": "Core Mandatory", "credits": 3, "aligned_domain": "AI Engineering", "demand_weight": 92},
+        {"code": "ST210", "name": "Applied Probability & Mathematical Statistics", "type": "Core Mandatory", "credits": 3, "aligned_domain": "Statistics", "demand_weight": 70},
+        {"code": "DB205", "name": "Database Systems & Enterprise SQL", "type": "Core Mandatory", "credits": 3, "aligned_domain": "Data Engineering", "demand_weight": 90},
+        {"code": "AI302", "name": "Deep Learning & Neural Architectures", "type": "Core Mandatory", "credits": 3, "aligned_domain": "AI Engineering", "demand_weight": 85},
+        {"code": "CS315", "name": "Cloud Computing & Distributed Systems", "type": "Elective / Modern", "credits": 3, "aligned_domain": "Cloud & MLOps", "demand_weight": 88},
+        {"code": "DS330", "name": "Data Visualization & Storytelling", "type": "Core Mandatory", "credits": 3, "aligned_domain": "Business Intelligence", "demand_weight": 80},
+        {"code": "ST340", "name": "Multivariate Analysis & Experimental Design", "type": "Core Mandatory", "credits": 3, "aligned_domain": "Statistics", "demand_weight": 65},
+        {"code": "AI401", "name": "Natural Language Processing & Generative AI", "type": "Elective / Modern", "credits": 3, "aligned_domain": "AI Engineering", "demand_weight": 82},
+        {"code": "CP499", "name": "Capstone Project with Industry Partner", "type": "Required Capstone", "credits": 6, "aligned_domain": "Applied Practice", "demand_weight": 94}
+      ],
+      "tuition_programs": [
+        {"university": "Chulalongkorn University", "program": "B.Sc. Data Science & AI (Intl)", "tuition_per_sem": 92000, "total_tuition": 736000},
+        {"university": "Chiang Mai University", "program": "B.Sc. Data Science", "tuition_per_sem": 35000, "total_tuition": 280000},
+        {"university": "KMITL", "program": "B.Eng. AI System Engineering", "tuition_per_sem": 75000, "total_tuition": 600000},
+        {"university": "Thammasat University", "program": "B.Sc. Applied Statistics & DS", "tuition_per_sem": 28000, "total_tuition": 224000},
+        {"university": "Mahidol University", "program": "B.Sc. Data Science & MedInfo", "tuition_per_sem": 45000, "total_tuition": 360000},
+        {"university": "Khon Kaen University", "program": "B.Sc. Artificial Intelligence", "tuition_per_sem": 30000, "total_tuition": 240000},
+        {"university": "KMUTT", "program": "B.Sc. Computer Science (Big Data)", "tuition_per_sem": 38000, "total_tuition": 304000}
+      ],
+      "vacancies_by_subfield": [
+        {"subfield": "Artificial Intelligence / ML", "open_positions": 1420, "share_pct": 34.0},
+        {"subfield": "Data Science & Advanced Analytics", "open_positions": 1650, "share_pct": 39.5},
+        {"subfield": "Statistics & Quantitative Modeling", "open_positions": 710, "share_pct": 17.0},
+        {"subfield": "Business Intelligence & Data Viz", "open_positions": 400, "share_pct": 9.5}
+      ],
+      "mismatch_insights": [
+        {
+          "title": "Severe MLOps & Production Infrastructure Gap",
+          "severity": "Critical",
+          "description": "82% of job vacancies demand cloud computing (AWS/GCP/Azure) and CI/CD/MLOps deployment skills, yet fewer than 25% of university curricula include dedicated courses on deploying and maintaining production ML models.",
+          "metric": "-56.5% Net Gap"
+        },
+        {
+          "title": "SQL & Real-World Data Pipelines Under-Emphasized",
+          "severity": "High",
+          "description": "While academic courses heavily emphasize theoretical mathematics, 89% of industry job postings mandate production SQL, ETL workflows, and data cleaning, where academic coverage averages only 65%.",
+          "metric": "-24.0% Net Gap"
+        },
+        {
+          "title": "Generative AI & LLM Operationalization Shortage",
+          "severity": "Critical",
+          "description": "Industry demand for Generative AI, Retrieval-Augmented Generation (RAG), and fine-tuning has surged to 72% in recent postings, while only 25% of existing degree programs have incorporated GenAI modules.",
+          "metric": "-47.0% Net Gap"
+        },
+        {
+          "title": "Over-indexing on Pure Theoretical Statistics & R",
+          "severity": "Surplus",
+          "description": "Academic curricula dedicate substantial hours to manual mathematical statistics proofs and R programming (coverage: 72-95%), whereas industry recruitment heavily favors Python and practical data engineering tools (R demand: 34%).",
+          "metric": "+38.0% Academic Surplus"
+        }
+      ],
+      "actionable_recommendations": {
+        "universities": [
+          {
+            "target": "Curriculum Modernization",
+            "action": "Integrate mandatory MLOps, Containerization (Docker/Kubernetes), and Cloud Computing (AWS/GCP) in Year 3-4.",
+            "impact": "Boost Year-1 employment from 84% to >95%."
+          },
+          {
+            "target": "Industry Co-op Partnerships",
+            "action": "Partner with tech leaders (e.g., KBTG, Agoda, SCB 10X) for real-world enterprise capstone projects with messy, uncurated datasets.",
+            "impact": "Eliminates employer onboarding friction."
+          },
+          {
+            "target": "Generative AI Labs",
+            "action": "Establish hands-on courses in LLM orchestration (LangChain, LlamaIndex, Vector DBs, evaluation frameworks).",
+            "impact": "Equips graduates with current cutting-edge industry competencies."
+          }
+        ],
+        "job_seekers": [
+          {
+            "target": "Portfolio Architecture",
+            "action": "Build deployed end-to-end projects featuring a live web API, CI/CD pipeline, and Docker container rather than simple Jupyter notebooks.",
+            "impact": "Dramatically distinguishes candidates during technical screening."
+          },
+          {
+            "target": "SQL & Data Engineering Mastery",
+            "action": "Attain advanced SQL proficiency (window functions, query optimization, indexing) and basic ETL tools (dbt, Airflow).",
+            "impact": "Passes 90%+ of technical take-home assessments."
+          },
+          {
+            "target": "Cloud Certifications",
+            "action": "Obtain baseline associate cloud credentials (AWS Certified Solutions Architect or GCP Associate Cloud Engineer).",
+            "impact": "Signals production readiness to hiring managers."
+          }
+        ]
+      }
+    };
+
+    // --- INITIALIZATION ---
+    document.addEventListener('DOMContentLoaded', async () => {
+      initTheme();
+      await loadInitialData();
+      renderAllTabs();
+    });
+
+    // --- THEME SWITCHER ---
+    function initTheme() {
+      const isDark = localStorage.getItem('theme') === 'dark' || 
+        (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      if (isDark) {
+        document.documentElement.classList.add('dark');
+        document.getElementById('theme-icon-sun').classList.remove('hidden');
+        document.getElementById('theme-icon-moon').classList.add('hidden');
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.getElementById('theme-icon-sun').classList.add('hidden');
+        document.getElementById('theme-icon-moon').classList.remove('hidden');
+      }
+    }
+
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      document.getElementById('theme-icon-sun').classList.toggle('hidden', !isDark);
+      document.getElementById('theme-icon-moon').classList.toggle('hidden', isDark);
+      // Re-render charts with updated theme colors
+      renderAllCharts();
+    }
+
+    // --- DATA LOADING & LOCALSTORAGE PERSISTENCE ---
+    async function loadInitialData() {
+      try {
+        const localSaved = localStorage.getItem('aidsst_dashboard_data');
+        if (localSaved) {
+          appData = JSON.parse(localSaved);
+          showToast('โหลดข้อมูลจาก LocalStorage เรียบร้อย');
+        } else {
+          // Attempt fetch from data/career_data.json
+          const res = await fetch('data/career_data.json');
+          if (res.ok) {
+            appData = await res.json();
+          } else {
+            appData = JSON.parse(JSON.stringify(SEED_DATA));
+          }
+        }
+      } catch (e) {
+        console.warn('Using embedded seed data fallback:', e);
+        appData = JSON.parse(JSON.stringify(SEED_DATA));
+      }
+      baselineData = JSON.parse(JSON.stringify(SEED_DATA));
+      updateStorageStatus();
+    }
+
+    function saveToLocalStorage() {
+      try {
+        localStorage.setItem('aidsst_dashboard_data', JSON.stringify(appData));
+        updateStorageStatus();
+      } catch (e) {
+        console.error('LocalStorage write failed:', e);
+      }
+    }
+
+    function resetDataToDefault() {
+      if (confirm('คุณต้องการรีเซ็ตข้อมูลทั้งหมดกลับเป็นค่าเริ่มต้น (Reset Data to Default) หรือไม่?')) {
+        appData = JSON.parse(JSON.stringify(baselineData));
+        localStorage.removeItem('aidsst_dashboard_data');
+        updateStorageStatus();
+        renderAllTabs();
+        showToast('คืนค่าข้อมูลตั้งต้นเรียบร้อยแล้ว (Reset Successful)');
+      }
+    }
+
+    function updateStorageStatus() {
+      const el = document.getElementById('storage-status');
+      if (el) {
+        const hasCustom = !!localStorage.getItem('aidsst_dashboard_data');
+        el.textContent = hasCustom ? 'localStorage (มีการแก้ไขบันทึกไว้)' : 'localStorage (ข้อมูลมาตรฐาน)';
+      }
+    }
+
+    // --- CURRENCY TOGGLE ---
+    function setCurrency(curr) {
+      currentCurrency = curr;
+      const thbBtn = document.getElementById('curr-thb');
+      const usdBtn = document.getElementById('curr-usd');
+      const badge = document.getElementById('salary-currency-badge');
+      const kpiSalary = document.getElementById('kpi-avg-salary');
+
+      if (curr === 'THB') {
+        thbBtn.className = 'px-2.5 py-1 rounded-md bg-white dark:bg-slate-800 shadow-sm text-indigo-600 dark:text-indigo-400 transition';
+        usdBtn.className = 'px-2.5 py-1 rounded-md text-slate-600 dark:text-slate-300 hover:text-indigo-600 transition';
+        if (badge) badge.textContent = 'สกุลเงิน THB (บาท/เดือน)';
+        if (kpiSalary) kpiSalary.textContent = '฿48,000 /ด.';
+      } else {
+        usdBtn.className = 'px-2.5 py-1 rounded-md bg-white dark:bg-slate-800 shadow-sm text-indigo-600 dark:text-indigo-400 transition';
+        thbBtn.className = 'px-2.5 py-1 rounded-md text-slate-600 dark:text-slate-300 hover:text-indigo-600 transition';
+        if (badge) badge.textContent = 'Currency USD ($ Annual)';
+        if (kpiSalary) kpiSalary.textContent = '$17,000 /yr';
+      }
+      renderSalariesChart();
+    }
+
+    // --- TAB SWITCHING ---
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('tab-active');
+        btn.classList.add('text-slate-600', 'dark:text-slate-400');
+      });
+
+      const targetTab = document.getElementById(tabId);
+      const targetNav = document.getElementById('nav-' + tabId);
+
+      if (targetTab) targetTab.classList.remove('hidden');
+      if (targetNav) {
+        targetNav.classList.add('tab-active');
+        targetNav.classList.remove('text-slate-600', 'dark:text-slate-400');
+      }
+
+      // Re-trigger layout adjustments for canvas charts
+      setTimeout(() => {
+        if (tabId === 'tab-academic') renderTabAcademicCharts();
+        if (tabId === 'tab-demand') renderTabDemandCharts();
+        if (tabId === 'tab-mismatch') renderTabMismatchCharts();
+        if (tabId === 'tab-crud') renderActiveCategoryTable();
+      }, 50);
+    }
+
+    // --- CHART DESTRUCTION HELPER ---
+    function destroyChart(name) {
+      if (chartInstances[name]) {
+        chartInstances[name].destroy();
+        delete chartInstances[name];
+      }
+    }
+
+    function getChartTheme() {
+      const isDark = document.documentElement.classList.contains('dark');
+      return {
+        textColor: isDark ? '#cbd5e1' : '#475569',
+        gridColor: isDark ? 'rgba(71, 85, 105, 0.25)' : 'rgba(226, 232, 240, 0.8)',
+        fontFamily: "'Inter', 'Prompt', sans-serif"
+      };
+    }
+
+    // --- RENDER ALL TABS ---
+    function renderAllTabs() {
+      renderTabAcademicCharts();
+      renderTabDemandCharts();
+      renderTabMismatchCharts();
+      renderActiveCategoryTable();
+      renderMismatchInsights();
+      renderActionableRecommendations();
+      renderCoreCoursesTable();
+      renderCompaniesTable();
+    }
+
+    function renderAllCharts() {
+      renderTabAcademicCharts();
+      renderTabDemandCharts();
+      renderTabMismatchCharts();
+    }
+
+    // ==========================================
+    // TAB 1 CHARTS & TABLES
+    // ==========================================
+    function renderTabAcademicCharts() {
+      const fieldFilter = document.getElementById('filter-academic-field')?.value || 'ALL';
+      const gradCat = appData.categories.find(c => c.id === 'graduates');
+      const empCat = appData.categories.find(c => c.id === 'employment');
+      const theme = getChartTheme();
+
+      // Filter graduates items
+      let items = gradCat ? gradCat.items : [];
+      if (fieldFilter !== 'ALL') {
+        items = items.filter(it => it.field === fieldFilter || (it.program && it.program.includes(fieldFilter)));
+      }
+
+      // 1. Chart: Graduates by Program & Year
+      destroyChart('graduates');
+      const ctxGrad = document.getElementById('chart-graduates')?.getContext('2d');
+      if (ctxGrad && items.length > 0) {
+        const labels = items.map(it => it.university.split(' ')[0] || it.program);
+        chartInstances['graduates'] = new Chart(ctxGrad, {
+          type: 'bar',
+          data: {
+            labels: labels,
+            datasets: [
+              { label: '2021', data: items.map(it => it.graduates_2021 || 0), backgroundColor: '#94a3b8' },
+              { label: '2022', data: items.map(it => it.graduates_2022 || 0), backgroundColor: '#818cf8' },
+              { label: '2023', data: items.map(it => it.graduates_2023 || 0), backgroundColor: '#6366f1' },
+              { label: '2024', data: items.map(it => it.graduates_2024 || 0), backgroundColor: '#4f46e5' }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { labels: { color: theme.textColor, font: { family: theme.fontFamily } } }
+            },
+            scales: {
+              x: { ticks: { color: theme.textColor }, grid: { display: false } },
+              y: { ticks: { color: theme.textColor }, grid: { color: theme.gridColor } }
+            }
+          }
+        });
+      }
+
+      // 2. Chart: 3-Year Employment Tracking
+      destroyChart('employment');
+      const ctxEmp = document.getElementById('chart-employment')?.getContext('2d');
+      const empItems = empCat ? empCat.items : [];
+      if (ctxEmp && empItems.length > 0) {
+        chartInstances['employment'] = new Chart(ctxEmp, {
+          type: 'line',
+          data: {
+            labels: ['ปีที่ 1 (Year 1)', 'ปีที่ 2 (Year 2)', 'ปีที่ 3 (Year 3)'],
+            datasets: empItems.map((it, idx) => {
+              const colors = ['#6366f1', '#10b981', '#f59e0b', '#ec4899', '#06b6d4', '#8b5cf6'];
+              const c = colors[idx % colors.length];
+              return {
+                label: it.program,
+                data: [it.year_1_rate, it.year_2_rate, it.year_3_rate],
+                borderColor: c,
+                backgroundColor: c,
+                tension: 0.3,
+                borderWidth: 2,
+                pointRadius: 4
+              };
+            })
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'bottom', labels: { color: theme.textColor, boxWidth: 12, font: { size: 10, family: theme.fontFamily } } }
+            },
+            scales: {
+              x: { ticks: { color: theme.textColor }, grid: { display: false } },
+              y: { min: 70, max: 100, ticks: { color: theme.textColor, callback: v => v + '%' }, grid: { color: theme.gridColor } }
+            }
+          }
+        });
+      }
+
+      // 3. Chart: Tuition Fees Comparison
+      destroyChart('tuition');
+      const ctxTuition = document.getElementById('chart-tuition')?.getContext('2d');
+      const tuitionList = appData.tuition_programs || [];
+      if (ctxTuition && tuitionList.length > 0) {
+        chartInstances['tuition'] = new Chart(ctxTuition, {
+          type: 'bar',
+          data: {
+            labels: tuitionList.map(t => t.university.replace(' University', '')),
+            datasets: [
+              {
+                label: 'ค่าเทอมตลอดหลักสูตร 4 ปี (THB)',
+                data: tuitionList.map(t => t.total_tuition || (t.tuition_per_sem * 8)),
+                backgroundColor: '#f59e0b',
+                borderRadius: 6
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false }
+            },
+            scales: {
+              x: { ticks: { color: theme.textColor, font: { size: 10 } }, grid: { display: false } },
+              y: {
+                ticks: {
+                  color: theme.textColor,
+                  callback: v => '฿' + (v / 1000).toLocaleString() + 'k'
+                },
+                grid: { color: theme.gridColor }
+              }
+            }
+          }
+        });
+      }
+    }
+
+    function renderCoreCoursesTable() {
+      const tbody = document.getElementById('course-matrix-tbody');
+      if (!tbody) return;
+      const courses = appData.curriculum_courses || [];
+      tbody.innerHTML = courses.map(c => `
+        <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/40 transition">
+          <td class="p-2.5 font-mono font-semibold text-indigo-600 dark:text-indigo-400">${c.code}</td>
+          <td class="p-2.5">
+            <div class="font-medium text-slate-800 dark:text-slate-200">${c.name}</div>
+            <div class="text-[10px] text-slate-400">${c.type} • ${c.credits} หน่วยกิต</div>
+          </td>
+          <td class="p-2.5">
+            <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300">
+              ${c.aligned_domain}
+            </span>
+          </td>
+          <td class="p-2.5 text-center">
+            <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold ${c.demand_weight >= 90 ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300' : 'bg-indigo-100 text-indigo-800 dark:bg-indigo-950 dark:text-indigo-300'}">
+              ${c.demand_weight}%
+            </span>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function filterCoursesTable() {
+      const q = (document.getElementById('course-search-input')?.value || '').toLowerCase();
+      const rows = document.querySelectorAll('#course-matrix-tbody tr');
+      rows.forEach(r => {
+        r.style.display = r.textContent.toLowerCase().includes(q) ? '' : 'none';
+      });
+    }
+
+    // ==========================================
+    // TAB 2 CHARTS & TABLES
+    // ==========================================
+    function renderTabDemandCharts() {
+      const theme = getChartTheme();
+
+      // 1. Chart: Vacancies by Sub-Field (Donut)
+      destroyChart('vacancies');
+      const ctxVac = document.getElementById('chart-vacancies')?.getContext('2d');
+      const vacList = appData.vacancies_by_subfield || [];
+      if (ctxVac && vacList.length > 0) {
+        chartInstances['vacancies'] = new Chart(ctxVac, {
+          type: 'doughnut',
+          data: {
+            labels: vacList.map(v => v.subfield),
+            datasets: [{
+              data: vacList.map(v => v.open_positions),
+              backgroundColor: ['#6366f1', '#8b5cf6', '#06b6d4', '#10b981'],
+              borderWidth: 2,
+              borderColor: document.documentElement.classList.contains('dark') ? '#1e293b' : '#ffffff'
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'bottom', labels: { color: theme.textColor, boxWidth: 12, font: { size: 10, family: theme.fontFamily } } }
+            },
+            cutout: '65%'
+          }
+        });
+      }
+
+      // 2. Chart: Top Skills Demand
+      filterSkillsChart('ALL');
+
+      // 3. Chart: Salaries by Career Levels
+      renderSalariesChart();
+    }
+
+    let currentSkillFilter = 'ALL';
+    function filterSkillsChart(filter) {
+      currentSkillFilter = filter;
+      destroyChart('skills-demand');
+      const ctxSkills = document.getElementById('chart-skills-demand')?.getContext('2d');
+      const skillsCat = appData.categories.find(c => c.id === 'skills');
+      let items = skillsCat ? skillsCat.items : [];
+      if (filter !== 'ALL') {
+        items = items.filter(it => it.category === filter);
+      }
+      items = [...items].sort((a, b) => b.market_demand_pct - a.market_demand_pct).slice(0, 8);
+      const theme = getChartTheme();
+
+      if (ctxSkills && items.length > 0) {
+        chartInstances['skills-demand'] = new Chart(ctxSkills, {
+          type: 'bar',
+          data: {
+            labels: items.map(s => s.name),
+            datasets: [{
+              label: '% Market Demand Frequency',
+              data: items.map(s => s.market_demand_pct),
+              backgroundColor: items.map(s => s.gap_pct < -30 ? '#ef4444' : '#6366f1'),
+              borderRadius: 4
+            }]
+          },
+          options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              x: { max: 100, ticks: { color: theme.textColor, callback: v => v + '%' }, grid: { color: theme.gridColor } },
+              y: { ticks: { color: theme.textColor, font: { size: 10 } }, grid: { display: false } }
+            }
+          }
+        });
+      }
+    }
+
+    function renderSalariesChart() {
+      destroyChart('salaries');
+      const ctxSal = document.getElementById('chart-salaries')?.getContext('2d');
+      const salCat = appData.categories.find(c => c.id === 'salaries');
+      const items = salCat ? salCat.items : [];
+      const theme = getChartTheme();
+
+      if (ctxSal && items.length > 0) {
+        // Group by roles or display level tiers
+        const isTHB = currentCurrency === 'THB';
+        const labels = items.map(it => `${it.role} (${it.level.split(' ')[0]})`);
+        const minData = items.map(it => isTHB ? it.salary_min_thb : Math.round(it.salary_usd_annual * 0.75));
+        const medData = items.map(it => isTHB ? it.salary_median_thb : it.salary_usd_annual);
+        const maxData = items.map(it => isTHB ? it.salary_max_thb : Math.round(it.salary_usd_annual * 1.4));
+
+        chartInstances['salaries'] = new Chart(ctxSal, {
+          type: 'bar',
+          data: {
+            labels: labels,
+            datasets: [
+              { label: 'Minimum', data: minData, backgroundColor: '#cbd5e1' },
+              { label: 'Median / Benchmark', data: medData, backgroundColor: '#10b981' },
+              { label: 'Maximum', data: maxData, backgroundColor: '#6366f1' }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'top', labels: { color: theme.textColor, font: { family: theme.fontFamily } } }
+            },
+            scales: {
+              x: { ticks: { color: theme.textColor, font: { size: 9 }, maxRotation: 45 }, grid: { display: false } },
+              y: {
+                ticks: {
+                  color: theme.textColor,
+                  callback: v => isTHB ? '฿' + (v / 1000).toLocaleString() + 'k' : '$' + (v / 1000).toLocaleString() + 'k'
+                },
+                grid: { color: theme.gridColor }
+              }
+            }
+          }
+        });
+      }
+    }
+
+    function renderCompaniesTable() {
+      const tbody = document.getElementById('companies-table-tbody');
+      if (!tbody) return;
+      const compCat = appData.categories.find(c => c.id === 'companies');
+      const list = compCat ? compCat.items : [];
+      tbody.innerHTML = list.map(c => `
+        <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/40 transition">
+          <td class="p-2.5">
+            <div class="font-bold text-slate-900 dark:text-slate-100">${c.name}</div>
+            <div class="text-[10px] text-slate-400">📍 ${c.locations || 'Bangkok'}</div>
+          </td>
+          <td class="p-2.5 text-slate-600 dark:text-slate-300">${c.industry}</td>
+          <td class="p-2.5 text-center font-bold text-indigo-600 dark:text-indigo-400">${c.open_positions}</td>
+          <td class="p-2.5">
+            <span class="text-[11px] text-slate-700 dark:text-slate-300 font-medium">${c.top_roles}</span>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    // ==========================================
+    // TAB 3 CHARTS & PANELS
+    // ==========================================
+    function renderTabMismatchCharts() {
+      const theme = getChartTheme();
+      const skillsCat = appData.categories.find(c => c.id === 'skills');
+      const items = skillsCat ? skillsCat.items : [];
+
+      // 1. Chart: Net Skill Gap (% Gap Analysis)
+      destroyChart('skill-gap');
+      const ctxGap = document.getElementById('chart-skill-gap')?.getContext('2d');
+      if (ctxGap && items.length > 0) {
+        const sorted = [...items].sort((a, b) => a.gap_pct - b.gap_pct);
+        chartInstances['skill-gap'] = new Chart(ctxGap, {
+          type: 'bar',
+          data: {
+            labels: sorted.map(s => s.name),
+            datasets: [{
+              label: 'Net Gap % (Curriculum vs Market)',
+              data: sorted.map(s => s.gap_pct),
+              backgroundColor: sorted.map(s => s.gap_pct < -30 ? '#ef4444' : (s.gap_pct < 0 ? '#f59e0b' : '#10b981')),
+              borderRadius: 4
+            }]
+          },
+          options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false }
+            },
+            scales: {
+              x: {
+                ticks: { color: theme.textColor, callback: v => (v > 0 ? '+' : '') + v + '%' },
+                grid: { color: theme.gridColor }
+              },
+              y: { ticks: { color: theme.textColor, font: { size: 10 } }, grid: { display: false } }
+            }
+          }
+        });
+      }
+
+      // 2. Chart: Radar Chart (Curriculum Supply vs Market Demand Overlay)
+      destroyChart('radar-gap');
+      const ctxRadar = document.getElementById('chart-radar-gap')?.getContext('2d');
+      if (ctxRadar && items.length > 0) {
+        const radarSubset = items.slice(0, 9);
+        chartInstances['radar-gap'] = new Chart(ctxRadar, {
+          type: 'radar',
+          data: {
+            labels: radarSubset.map(s => s.name.split(' (')[0]),
+            datasets: [
+              {
+                label: 'Curriculum Coverage % (Supply)',
+                data: radarSubset.map(s => s.curriculum_coverage_pct),
+                borderColor: '#6366f1',
+                backgroundColor: 'rgba(99, 102, 241, 0.25)',
+                borderWidth: 2,
+                pointRadius: 3
+              },
+              {
+                label: 'Job Market Demand % (Demand)',
+                data: radarSubset.map(s => s.market_demand_pct),
+                borderColor: '#ec4899',
+                backgroundColor: 'rgba(236, 72, 153, 0.25)',
+                borderWidth: 2,
+                pointRadius: 3
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              r: {
+                min: 0,
+                max: 100,
+                ticks: { display: false },
+                pointLabels: { color: theme.textColor, font: { size: 10, family: theme.fontFamily } },
+                grid: { color: theme.gridColor },
+                angleLines: { color: theme.gridColor }
+              }
+            },
+            plugins: {
+              legend: { position: 'bottom', labels: { color: theme.textColor, font: { size: 11, family: theme.fontFamily } } }
+            }
+          }
+        });
+      }
+    }
+
+    function renderMismatchInsights() {
+      const container = document.getElementById('mismatch-insights-container');
+      if (!container) return;
+      const insights = appData.mismatch_insights || [];
+      container.innerHTML = insights.map(ins => {
+        let badgeColor = 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300';
+        if (ins.severity === 'High') badgeColor = 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300';
+        if (ins.severity === 'Surplus') badgeColor = 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300';
+
+        return `
+          <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-700/30 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-1.5">
+                <h4 class="font-bold text-xs sm:text-sm text-slate-900 dark:text-slate-100">${ins.title}</h4>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${badgeColor}">${ins.severity}</span>
+              </div>
+              <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">${ins.description}</p>
+            </div>
+            <div class="mt-3 pt-2 border-t border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between text-xs">
+              <span class="text-slate-500 dark:text-slate-400 font-medium">ส่วนต่างช่องว่าง:</span>
+              <span class="font-bold font-mono ${ins.metric.includes('-') ? 'text-rose-600 dark:text-rose-400' : 'text-emerald-600 dark:text-emerald-400'}">${ins.metric}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderActionableRecommendations() {
+      const uList = document.getElementById('recs-universities-list');
+      const jList = document.getElementById('recs-jobseekers-list');
+      const recs = appData.actionable_recommendations || {};
+
+      if (uList && recs.universities) {
+        uList.innerHTML = recs.universities.map(u => `
+          <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 text-xs">
+            <div class="font-bold text-indigo-900 dark:text-indigo-300 mb-1 flex items-center space-x-1">
+              <span>🎯 ${u.target}</span>
+            </div>
+            <p class="text-slate-600 dark:text-slate-300 mb-1.5">${u.action}</p>
+            <div class="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold">✨ ผลกระทบ: ${u.impact || u.expected_impact}</div>
+          </div>
+        `).join('');
+      }
+
+      if (jList && recs.job_seekers) {
+        jList.innerHTML = recs.job_seekers.map(j => `
+          <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 text-xs">
+            <div class="font-bold text-emerald-900 dark:text-emerald-300 mb-1 flex items-center space-x-1">
+              <span>💼 ${j.target}</span>
+            </div>
+            <p class="text-slate-600 dark:text-slate-300 mb-1.5">${j.action}</p>
+            <div class="text-[10px] text-indigo-600 dark:text-indigo-400 font-semibold">✨ ผลกระทบ: ${j.impact || j.expected_impact}</div>
+          </div>
+        `).join('');
+      }
+    }
+
+    // ==========================================
+    // TAB 4: OPEN DATA CATALOG & CRUD
+    // ==========================================
+    function renderActiveCategoryTable() {
+      const catSelect = document.getElementById('crud-category-select');
+      const categoryId = catSelect ? catSelect.value : currentActiveCategory;
+      currentActiveCategory = categoryId;
+
+      const cat = appData.categories.find(c => c.id === categoryId);
+      if (!cat) return;
+
+      // Header title & desc
+      document.getElementById('cat-header-title').textContent = cat.name;
+      document.getElementById('cat-header-desc').textContent = cat.description;
+
+      // Source links
+      const sourcesDiv = document.getElementById('cat-header-sources');
+      sourcesDiv.innerHTML = (cat.sources || []).map(s => `
+        <a href="${s.url}" target="_blank" class="inline-flex items-center space-x-1 px-2.5 py-1 rounded bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-indigo-600 dark:text-indigo-400 hover:underline">
+          <span>🔗 ${s.title}</span>
+        </a>
+      `).join('');
+
+      // Build Dynamic Table Headers & Rows
+      const thead = document.getElementById('crud-table-thead');
+      const tbody = document.getElementById('crud-table-tbody');
+      const items = cat.items || [];
+
+      if (items.length === 0) {
+        thead.innerHTML = '<tr><th class="p-3">ไม่มีข้อมูล</th></tr>';
+        tbody.innerHTML = '<tr><td class="p-4 text-center text-slate-400">ยังไม่มีรายการในหมวดนี้</td></tr>';
+        return;
+      }
+
+      // Extract keys from first item excluding 'id' for header display, but keep track
+      const sample = items[0];
+      const keys = Object.keys(sample);
+
+      thead.innerHTML = `
+        <tr>
+          ${keys.map(k => `<th class="p-3 capitalize">${formatHeaderKey(k)}</th>`).join('')}
+          <th class="p-3 text-right">การจัดการ (Actions)</th>
+        </tr>
+      `;
+
+      tbody.innerHTML = items.map((item, idx) => `
+        <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/40 transition">
+          ${keys.map(k => `<td class="p-3">${formatCellValue(k, item[k])}</td>`).join('')}
+          <td class="p-3 text-right whitespace-nowrap space-x-2">
+            <button onclick="openEditItemModal('${item.id || idx}')" class="px-2.5 py-1 rounded text-xs font-medium bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-950 dark:hover:bg-indigo-900 text-indigo-700 dark:text-indigo-300 transition">แก้ไข (Edit)</button>
+            <button onclick="deleteItem('${item.id || idx}')" class="px-2.5 py-1 rounded text-xs font-medium bg-rose-50 hover:bg-rose-100 dark:bg-rose-950 dark:hover:bg-rose-900 text-rose-700 dark:text-rose-300 transition">ลบ (Delete)</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function formatHeaderKey(key) {
+      return key.replace(/_/g, ' ');
+    }
+
+    function formatCellValue(key, val) {
+      if (val === null || val === undefined) return '-';
+      if (typeof val === 'number') {
+        if (key.includes('salary')) return '฿' + val.toLocaleString();
+        if (key.includes('rate') || key.includes('pct')) return val + '%';
+        return val.toLocaleString();
+      }
+      return val;
+    }
+
+    // --- SEARCH ACROSS ALL CATEGORIES ---
+    function handleGlobalSearch() {
+      const q = (document.getElementById('global-search-input')?.value || '').toLowerCase().trim();
+      const rows = document.querySelectorAll('#crud-table-tbody tr');
+      rows.forEach(r => {
+        r.style.display = r.textContent.toLowerCase().includes(q) ? '' : 'none';
+      });
+    }
+
+    // --- CRUD MODAL OPERATIONS ---
+    function openAddItemModal() {
+      const cat = appData.categories.find(c => c.id === currentActiveCategory);
+      if (!cat || !cat.items) return;
+
+      document.getElementById('modal-title').textContent = `เพิ่มข้อมูลในหมวด: ${cat.name}`;
+      document.getElementById('modal-item-mode').value = 'add';
+      document.getElementById('modal-item-id').value = '';
+
+      const sample = cat.items[0] || {};
+      const keys = Object.keys(sample);
+
+      const container = document.getElementById('modal-fields-container');
+      container.innerHTML = keys.map(k => {
+        const isId = k === 'id';
+        const defaultValue = isId ? 'NEW_' + Math.floor(Math.random() * 1000) : '';
+        const isNum = typeof sample[k] === 'number';
+
+        return `
+          <div>
+            <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1 capitalize">${formatHeaderKey(k)}</label>
+            <input type="${isNum ? 'number' : 'text'}" step="any" name="${k}" value="${defaultValue}" ${isId ? 'readonly class="bg-slate-100 dark:bg-slate-700 cursor-not-allowed"' : ''} required class="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-indigo-500">
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('crud-modal').classList.remove('hidden');
+    }
+
+    function openEditItemModal(itemId) {
+      const cat = appData.categories.find(c => c.id === currentActiveCategory);
+      if (!cat) return;
+
+      const item = cat.items.find((it, idx) => (it.id ? it.id === itemId : idx == itemId));
+      if (!item) return;
+
+      document.getElementById('modal-title').textContent = `แก้ไขข้อมูล: ${cat.name}`;
+      document.getElementById('modal-item-mode').value = 'edit';
+      document.getElementById('modal-item-id').value = itemId;
+
+      const keys = Object.keys(item);
+      const container = document.getElementById('modal-fields-container');
+      container.innerHTML = keys.map(k => {
+        const isId = k === 'id';
+        const val = item[k];
+        const isNum = typeof val === 'number';
+
+        return `
+          <div>
+            <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1 capitalize">${formatHeaderKey(k)}</label>
+            <input type="${isNum ? 'number' : 'text'}" step="any" name="${k}" value="${val}" ${isId ? 'readonly class="bg-slate-100 dark:bg-slate-700 cursor-not-allowed"' : ''} required class="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-indigo-500">
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('crud-modal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('crud-modal').classList.add('hidden');
+    }
+
+    function handleModalSubmit(e) {
+      e.preventDefault();
+      const form = e.target;
+      const formData = new FormData(form);
+      const mode = document.getElementById('modal-item-mode').value;
+      const itemId = document.getElementById('modal-item-id').value;
+
+      const cat = appData.categories.find(c => c.id === currentActiveCategory);
+      if (!cat) return;
+
+      const newItem = {};
+      const sample = cat.items[0] || {};
+
+      for (let [k, v] of formData.entries()) {
+        if (k === 'modal-item-id' || k === 'modal-item-mode') continue;
+        // Parse numbers if applicable
+        if (typeof sample[k] === 'number') {
+          newItem[k] = parseFloat(v) || 0;
+        } else {
+          newItem[k] = v;
+        }
+      }
+
+      if (mode === 'add') {
+        cat.items.push(newItem);
+        showToast('เพิ่มรายการข้อมูลเรียบร้อยแล้ว');
+      } else {
+        const idx = cat.items.findIndex((it, i) => (it.id ? it.id === itemId : i == itemId));
+        if (idx !== -1) {
+          cat.items[idx] = newItem;
+          showToast('บันทึกการแก้ไขข้อมูลเรียบร้อยแล้ว');
+        }
+      }
+
+      saveToLocalStorage();
+      closeModal();
+      renderActiveCategoryTable();
+      renderAllCharts();
+    }
+
+    function deleteItem(itemId) {
+      if (!confirm('คุณแน่ใจว่าต้องการลบรายการนี้หรือไม่?')) return;
+      const cat = appData.categories.find(c => c.id === currentActiveCategory);
+      if (!cat) return;
+
+      cat.items = cat.items.filter((it, idx) => (it.id ? it.id !== itemId : idx != itemId));
+      saveToLocalStorage();
+      renderActiveCategoryTable();
+      renderAllCharts();
+      showToast('ลบรายการข้อมูลสำเร็จ');
+    }
+
+    // --- EXPORT TO JSON ---
+    function exportToJSON() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appData, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `aidsst_career_dataset_${new Date().toISOString().slice(0, 10)}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+      showToast('ส่งออกไฟล์ JSON สำเร็จ');
+    }
+
+    // --- EXPORT TO MARKDOWN ---
+    function exportToMarkdown() {
+      let md = `# AI, Data Science & Statistics Workforce Intelligence Dataset\n`;
+      md += `*Generated: ${new Date().toLocaleString()}*\n\n`;
+
+      appData.categories.forEach(cat => {
+        md += `## ${cat.name}\n`;
+        md += `> ${cat.description}\n\n`;
+        if (cat.sources && cat.sources.length > 0) {
+          md += `**Sources:**\n`;
+          cat.sources.forEach(s => {
+            md += `- [${s.title}](${s.url})\n`;
+          });
+          md += `\n`;
+        }
+
+        const items = cat.items || [];
+        if (items.length > 0) {
+          const keys = Object.keys(items[0]);
+          md += `| ${keys.map(k => formatHeaderKey(k)).join(' | ')} |\n`;
+          md += `| ${keys.map(() => '---').join(' | ')} |\n`;
+          items.forEach(it => {
+            md += `| ${keys.map(k => it[k] !== undefined ? it[k] : '').join(' | ')} |\n`;
+          });
+          md += `\n---\n\n`;
+        }
+      });
+
+      document.getElementById('export-markdown-content').value = md;
+      document.getElementById('export-modal').classList.remove('hidden');
+    }
+
+    function closeExportModal() {
+      document.getElementById('export-modal').classList.add('hidden');
+    }
+
+    function copyExportMarkdown() {
+      const textarea = document.getElementById('export-markdown-content');
+      textarea.select();
+      navigator.clipboard.writeText(textarea.value);
+      showToast('คัดลอก Markdown ลงคลิปบอร์ดแล้ว');
+    }
+
+    function downloadExportMarkdown() {
+      const content = document.getElementById('export-markdown-content').value;
+      const blob = new Blob([content], { type: 'text/markdown;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", url);
+      downloadAnchor.setAttribute("download", `aidsst_career_dataset_${new Date().toISOString().slice(0, 10)}.md`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+      showToast('ดาวน์โหลดไฟล์ .md สำเร็จ');
+    }
+
+    // --- TOAST NOTIFICATION ---
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-message');
+      if (!toast || !toastMsg) return;
+      toastMsg.textContent = msg;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 3000);
+    }
+  </script>
+
+</body>
+</html>
