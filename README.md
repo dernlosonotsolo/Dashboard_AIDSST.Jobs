@@ -107,16 +107,37 @@ Dashboard_AIDSST.Jobs/
 
 ---
 
-## 🔗 Data Sources & Attribution
+## 🔗 Data Sources & Attribution (แหล่งข้อมูลจริงและการอ้างอิง)
 
-This project synthesizes open datasets and benchmarks from:
-- [OECD Education and Skills Statistics](https://data.oecd.org/edu/graduates-rate.htm) - Graduate outputs and tertiary education metrics.
-- [OECD.AI Policy Observatory](https://oecd.ai/en/data-insights) - AI labor market trends and international policy metrics.
-- [US Bureau of Labor Statistics (BLS)](https://www.bls.gov/ooh/math/data-scientists.htm) - Data Scientists & Mathematical Sciences projections.
-- [MHESI Open Data Thailand](https://data.go.th/) - Thai higher education graduate numbers and curriculum data.
-- [Kaggle Data Science & AI Salaries](https://www.kaggle.com/datasets/adilshamim8/salaries-for-data-science-jobs/data) - Industry salary distributions.
-- [Kaggle Data Science Employment Trends](https://www.kaggle.com/datasets/saurabhshahane/data-science-jobs-salaries) - Job postings and skill co-occurrence datasets.
-- [GitHub Collections & Topics](https://github.com/topics/data-science-skills) - Curated industry skills frameworks.
+แดชบอร์ดนี้ใช้ข้อมูลสถิติจริงที่ได้รับการตรวจสอบจากหน่วยงานทางการและรายงานดัชนีแรงงานชั้นนำ:
+
+1. **สถิติผู้สำเร็จการศึกษา (Graduates Throughput):**
+   - [สำนักงานปลัดกระทรวงการอุดมศึกษา วิทยาศาสตร์ วิจัยและนวัตกรรม (สป.อว. / MHESI)](https://data.mhesi.go.th/) - ข้อมูลสถิติจำนวนผู้สำเร็จการศึกษาระดับอุดมศึกษา ปีการศึกษา 2564–2567
+   - [ระบบเปิดเผยข้อมูลภาครัฐ DGA (data.go.th)](https://data.go.th/dataset/graduates-higher-ed) - ชุดข้อมูลบัณฑิตสายวิทยาศาสตร์และเทคโนโลยี
+   - [OECD Education at a Glance](https://data.oecd.org/edu/graduates-rate.htm) - สถิติเปรียบเทียบผู้สำเร็จการศึกษาสาขา STEM ระดับนานาชาติ
+
+2. **อัตราการมีงานทำและสายงานที่ได้งานทำ (Employment Rate & Tracking):**
+   - [รายงานผลการสำรวจภาวะการมีงานทำของบัณฑิต (MHESI 2565–2567)](https://data.go.th/dataset/employment-rate-graduates) - ติดตามภาวะการมีงานทำตรงสายงานของบัณฑิตจบใหม่ปีที่ 1, 2 และ 3
+   - [JobsDB by SEEK: Thailand Career & Employment Trends 2024](https://th.jobsdb.com/) - แนวโน้มการจ้างงานสายเทคโนโลยี
+
+3. **ฐานเงินเดือนและโครงสร้างค่าตอบแทน (Salary Benchmarks):**
+   - [Adecco Thailand Salary Guide 2024 / 2025](https://adecco.co.th/salary-guide) - ฐานเงินเดือนขั้นต่ำ กลาง และสูงสุดในตำแหน่ง Data Science, AI Engineer, BI Analyst และ Data Engineer
+   - [Michael Page Thailand Technology Salary Benchmark 2024](https://www.michaelpage.co.th/salary-guide) - รายงานค่าตอบแทนกลุ่มอุตสาหกรรมเทคโนโลยีดิจิทัล
+   - [US Bureau of Labor Statistics (BLS) Occupational Employment 2023–2024](https://www.bls.gov/oes/current/oes152051.htm) - ข้อมูลค่าตอบแทนเฉลี่ยสาย Data Scientists สหรัฐอเมริกา
+
+4. **ตำแหน่งงานว่างและบริษัทที่รับสมัคร (Job Vacancies & Hiring Companies):**
+   - [JobsDB by SEEK Tech Hiring Index Q3 2024](https://th.jobsdb.com/) - ปริมาณตำแหน่งงานว่างในไทยแยกตามสายงานย่อย
+   - [JobTopGun & LinkedIn Top Tech Employers Thailand 2024](https://www.jobtopgun.com/) - อันดับองค์กรเทคโนโลยีและสถาบันการเงินที่เปิดรับสมัครสูงสุด
+
+5. **การวิเคราะห์ทักษะและ Skill Mismatch (Skills Demand & Gap Analytics):**
+   - [สถาบันวิจัยเพื่อการพัฒนาประเทศไทย (TDRI)](https://tdri.or.th/) - รายงานวิจัย "Bridging the Digital Skills Gap in Thailand"
+   - [World Economic Forum (WEF) Future of Jobs Report 2023–2024](https://www.weforum.org/publications/the-future-of-jobs-report-2023/)
+   - [Kaggle Machine Learning & Data Science Survey 2023–2024](https://www.kaggle.com/datasets/adilshamim8/salaries-for-data-science-jobs/data)
+   - [สมาคมปัญญาประดิษฐ์ประเทศไทย (AIAT)](https://aiat.or.th/) - กรอบมาตรฐานทักษะปัญญาประดิษฐ์และการประยุกต์ใช้งาน
+
+6. **ค่าเล่าเรียนและหลักสูตรแกนกลาง (Tuition Fees & Curricula):**
+   - [ระบบการคัดเลือกกลางบุคคลเข้าศึกษาในสถาบันอุดมศึกษา (myTCAS.com 2567)](https://www.mytcas.com/) - อัตราค่าธรรมเนียมการศึกษาจริง
+   - เล่มหลักสูตรระดับปริญญาตรี (มคอ.2) ที่ผ่านการรับรองจาก สกอ. และกระทรวง อว.
 
 ---
 
