@@ -19,8 +19,8 @@ In modern higher education and tech industries, rapid advances in AI and Data Sc
 
 The project employs a modern, lightweight, dependency-free architecture that can run instantly in any web browser or via a built-in Python runner:
 
-- **Frontend & Styling:** [Tailwind CSS](https://tailwindcss.com/) (CDN) with modern responsive layout, slate/indigo styling, dark/light theme support, and accessible UI controls.
-- **Visualizations:** [Plotly.js](https://plotly.com/javascript/) and [Chart.js](https://www.chartjs.org/) for responsive, high-performance charts, radar charts, diverging bars, box plots, and multi-line time series.
+- **Frontend & Styling:** [Tailwind CSS](https://tailwindcss.com/) (CDN) with a **Lego-Inspired UI Design System** ("Brick by Brick" modular architecture, primary Lego colors `#0055BF` Blue, `#D40000` Red, `#FFC107` Yellow, `#28A745` Green, 3D tactile brick cards with bottom bevels, toy studs, segmented Build Progress Bar, and friendly rounded typography `Nunito` / `Prompt`).
+- **Visualizations:** [Plotly.js](https://plotly.com/javascript/) and [Chart.js](https://www.chartjs.org/) customized with the Lego primary color palette, rounded block bars, radar charts, diverging bars, box plots, and multi-line time series.
 - **Reactivity & State Management:** Reactive client-side architecture with `localStorage` persistence for dynamic dataset updates, real-time filtering, and cross-filtering reactivity across charts.
 - **Backend / Local Server:** Python 3 standard library server (`app.py`), requiring zero external pip dependencies and compatible with Python 3.14+.
 - **Data Interchange:** Structured JSON schemas (`data/career_data.json`) with two-way Markdown (`.md`) export and import support.
